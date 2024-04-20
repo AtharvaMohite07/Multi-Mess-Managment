@@ -1,0 +1,10 @@
+curl --location 'http://localhost:8888/users/signup' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Test Users",
+    "email": "atharva@gmail.com",
+    "mobileno": "7009386538",
+    "role": 0,
+    "password": "test",
+    "cpassword": "test"
+}'
