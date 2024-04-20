@@ -18,7 +18,7 @@ dotenv.config();
 dotenv.config()
 
 // connect to a database
-import Connection from './Database/db_connect.js'
+import Connection from './database/db_connect.js'
 import UserPlan from './Models/UserPlan.js';
 import moment from 'moment/moment.js';
 import Inventory from './Models/Inventory.js';
@@ -117,4 +117,4 @@ app.get("/date" , async (req,res) => {
 })
 
 // listening app on given port
-app.listen(process.env.PORT , () => {console.log(`Server is running....`)})
+app.listen(process.env.PORT , () => {console.log(`Server is running on ${process.env.PORT}`)})

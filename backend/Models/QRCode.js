@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import qrcode from 'qrcode';
 
 const qrCodeSchema = new mongoose.Schema({
     userId: { type: Number, required: true },

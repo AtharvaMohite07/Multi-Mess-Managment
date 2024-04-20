@@ -55,13 +55,12 @@ export const addUserPlan = asyncHandler(async (req, res) => {
         // Generate QR codes for the selected plan
         const validityDate = calculateValidityDate(planId);
         for (const mealType of ['Breakfast', 'Lunch', 'Dinner']) {
-            await qrCodeController.generateQRCode(req, res, {
+            let response = await qrCodeController.generateQRCode(
                 userId,
                 planId,
                 validityDate,
                 mealType
-            });
-
+            );
         }
         console.log("Error:")
 

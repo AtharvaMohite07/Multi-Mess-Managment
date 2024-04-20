@@ -1,5 +1,5 @@
 import { Router } from "express";
-import qrCodeController from '../controller/QRCodeController.js';
+import qrCodeController from '../Controller/QRCodeController.js';
 
 const router = Router();
 
