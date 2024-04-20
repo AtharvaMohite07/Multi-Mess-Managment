@@ -104,7 +104,31 @@ export async function validateQRCode(req, res) {
     }
 };
 
+export function showQRCode(req, res) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const { userId } = req.params;
+
+            // Find the QR code in the database
+            const qrCode = await QRCode.findOne({ userId });
+
+            if (!qrCode) {
+                resolve(res.status(404).json({ message: 'QR code not found.' }));
+                return; // Prevent further execution
+            }
+
+            resolve(res.json({ qrCode: qrCode.code }));
+            // ... (choose one of the display options below) ...
+
+        } catch (err) {
+            console.error(err);
+            reject(res.status(500).json({ message: 'Internal server error.' }));
+        }
+    });
+}
+
 export default {
     generateQRCode,
-    validateQRCode
+    validateQRCode,
+    showQRCode
 };

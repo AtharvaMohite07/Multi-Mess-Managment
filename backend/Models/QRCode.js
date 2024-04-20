@@ -24,6 +24,6 @@ qrCodeSchema.pre('save', async function(next) {
 });
 
 
-const QRCode = mongoose.models.qrcode || mongoose.model('qrCode' , qrCodeSchema)
+const QRCode = mongoose.models.qrcode || mongoose.model('qrcodes' , qrCodeSchema)
 
 export default QRCode
