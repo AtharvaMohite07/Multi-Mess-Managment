@@ -7,7 +7,9 @@ import userplanRoute from './Routes/userPlanRoutes.js';
 import dailyentryRouter from './Routes/dailyentryRoute.js';
 import statisticsRoute from './Routes/statisticsRoute.js';
 import inventoryRoute from './Routes/inventoryRoutes.js';
-import QRCodeRoutes from './Routes/QRCodeRoutes.js'; // Import QRCode routes
+import messRouter from './Routes/messRoutes.js';
+import QRCodeRoutes from './Routes/QRCodeRoutes.js';
+import superAdminRoutes from './Routes/superadminRoutes.js';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -41,7 +43,9 @@ app.use("/userplan", userplanRoute);
 app.use("/dailyentry", dailyentryRouter);
 app.use("/stats", statisticsRoute);
 app.use("/inventory", inventoryRoute);
-app.use("/qrcodes", QRCodeRoutes); 
+app.use("/qrcodes", QRCodeRoutes);
+app.use('/messes', messRouter);
+app.use('/superadmins', superAdminRoutes);
 
 // get requests
 

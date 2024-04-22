@@ -65,7 +65,9 @@ const CurrentPlan = ({ planDetail, plan_id }) => {
                 return <span>{plan.plan_desc}</span>;
               })}
             </p> */}
-            <p className="">{plan.plan_desc}</p>
+            <p className="">
+              {plan?.plan_desc || "Plan description not available."}
+            </p>
             <div className="flex border-b mt-3 bottom-2 border-black py-2">
               <span className="text-gray-500">Starting Date</span>
               <span className="ml-auto text-gray-900">

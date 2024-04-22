@@ -72,7 +72,7 @@ export const createNewUser = asyncHandler(async (req , res) => {
     const hashedPassword = await bcrypt.hash(password , salt)
 
     // creating userObject
-    const userObject = {name , email , mobileno , role , "password":hashedPassword , "cpassword": hashedPassword}
+    const userObject = {name ,messId ,email , mobileno , role , "password":hashedPassword , "cpassword": hashedPassword}
 
     // Create and store new user 
     const user = await new User(userObject).save()

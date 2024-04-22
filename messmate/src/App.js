@@ -25,6 +25,10 @@ import QrAttendance from "./Admin/Pages/QrAttendance";
 import Dashboad from "./Admin/Pages/Dashboad";
 import Inventory from "./Admin/Pages/Inventory";
 import Employee from "./Employee/Employee";
+import SuperAdmin from "./SuperAdmin/SuperAdmin";
+import SuperadminDashboad from "./SuperAdmin/Pages/SuperadminDashboad";
+//import MessManagement from "./Superadmin/Pages/MessManagement";
+//import UserManagement from "./Superadmin/UserManagement";
 
 function App() {
   return (
@@ -82,6 +86,18 @@ function App() {
 
                   <Route path="attendance" element={<Attendance />} />
                   <Route path="information" element={<Info />}>
+                  </Route>
+                </Route>
+              </Route>
+              //SuperAdmin Code -
+              <Route element={<RequireAuth accessRole={3} />}>
+                <Route path="/superadmin" element={<SuperAdmin />}>
+                  <Route path='' element={<SuperadminDashboad />}></Route>
+                  {/*<Route path="/superadmin/messes" element={<MessManagement />}>*/}
+                  {/*</Route>*/}
+                  <Route path="adduser" element={<Adduser />}>
+                  </Route>
+                  <Route path="alluser" element={<Alluser />}>
                   </Route>
                 </Route>
               </Route>

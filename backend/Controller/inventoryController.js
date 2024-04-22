@@ -1,6 +1,6 @@
 import User from "../Models/User.js";
-import bcrypt from 'bcrypt'
-import asyncHandler from 'express-async-handler'
+import bcrypt from 'bcrypt';
+import asyncHandler from 'express-async-handler';
 import Inventory from "../Models/Inventory.js";
 
 export const getAllUser = asyncHandler(async (req , res) => {

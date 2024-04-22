@@ -4,6 +4,13 @@ import DailyEntry from './DailyEntry.js';
 
 
 const userSchema = new mongoose.Schema({
+     messId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Mess',
+            required: true
+        },
+    // Optional field for clarity
+
     userId: {
         type: Number,
         default: 2000,
@@ -35,7 +42,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: Number,
-        enum: [0 , 1 , 2 ],
+        enum: [0 , 1 , 2 , 3 ],
         required : true 
     },
     password : { 

@@ -5,10 +5,12 @@ import CryptoJS from 'crypto-js';
 // Encryption Key (replace with your secure key)
 import * as crypto from 'crypto';
 
-const encryptionKey = crypto.randomBytes(32).toString('hex'); // Generate a 256-bit key
-console.log(encryptionKey);
+//const encryptionKey = crypto.randomBytes(32).toString('hex'); // Generate a 256-bit key
 
 //const encryptionKey = 'appleadaykeepsdoctorsaway';
+const encryptionKey = 'de4f927dc1e812d74cab41efcf22c5ac9d866ba2befa9d7f1602287723e2b0e4';
+
+console.log(encryptionKey);
 
 export async function generateQRCode(userId, planId, validityDate, mealType) {
     return new Promise(async (resolve, reject) => {
@@ -104,7 +106,7 @@ export async function validateQRCode(req, res) {
     }
 };
 
-export function showQRCode(req, res) {
+export async function showQRCode(req, res) {
     return new Promise(async (resolve, reject) => {
         try {
             const { userId } = req.params;

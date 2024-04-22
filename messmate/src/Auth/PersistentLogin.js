@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import useAuth from "./useAuth";
 import useRefresh from "./useRefresh"
-
+import refreshSuperAdmin from "./useRefreshSuperAdmin";
 
 const PersistentLogin = () => {
     const refresh = useRefresh();
@@ -12,7 +12,14 @@ const PersistentLogin = () => {
     useEffect(() => {
         const verifyCookie = async () => {
             try {
-                await refresh()
+                if (auth.role === 3) {
+                    // If the user is a superadmin, use refreshSuperAdmin
+                    await refreshSuperAdmin();}
+                else {
+                    // Otherwise, use the regular refresh function
+                    await refresh();
+                }
+
             } catch (error) {
                 console.log(error);
             }
