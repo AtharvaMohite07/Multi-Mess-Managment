@@ -111,15 +111,22 @@ export async function showQRCode(req, res) {
         try {
             const { userId } = req.params;
 
-            // Find the QR code in the database
-            const qrCode = await QRCode.findOne({ userId });
+            // Find all QR codes associated with the user in the database
+            const qrCodes = await QRCode.find({ userId });
 
-            if (!qrCode) {
-                resolve(res.status(404).json({ message: 'QR code not found.' }));
+            if (!qrCodes || qrCodes.length === 0) {
+                resolve(res.status(404).json({ message: 'QR codes not found for the user.' }));
                 return; // Prevent further execution
             }
 
-            resolve(res.json({ qrCode: qrCode.code }));
+            // Extract the meal type and QR code URLs of all QR codes
+            const qrCodeData = qrCodes.map(qrCode => ({
+                mealType: qrCode.mealType,
+                validityDate: qrCode.validityDate,
+                qrCode: qrCode.code
+            }));
+
+            resolve(res.json({ qrCodes: qrCodeData }));
             // ... (choose one of the display options below) ...
 
         } catch (err) {
@@ -128,6 +135,8 @@ export async function showQRCode(req, res) {
         }
     });
 }
+
+
 
 export default {
     generateQRCode,
