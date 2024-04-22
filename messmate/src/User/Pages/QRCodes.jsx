@@ -37,14 +37,21 @@ const QRCodes = () => {
                 ) : error ? (
                     <h1>Error: {error}</h1>
                 ) : qrCodes.length === 0 ? (
-                    <h1 className="text-black text-center text-4xl font-semibold">No QR codes available.</h1>
+                    <h1 className="text-black text-center text-4xl font-semibold">
+                        No QR codes available.
+                    </h1>
                 ) : (
                     <div>
                         {qrCodes.map((qrCode, index) => (
                             <div key={index} className="qr-code">
-                                <h2>{qrCode.mealType}</h2> {/* Display meal type */}
-                                <p>Validity Date: {new Date(qrCode.validityDate).toLocaleString()}</p> {/* Display validity date */}
-                                <img src={qrCode.qrCode} alt={`QR Code ${index}`} className="qr-code-img" />
+                                <h2>{qrCode.mealType}</h2>
+                                <p>Validity Date: {new Date(qrCode.validityDate).toLocaleString()}</p>
+                                {/* Display QR code as image */}
+                                <img
+                                    src={`data:image/png;base64,${qrCode.qrCode.replace(/^data:image\/png;base64,/, "")}`}
+                                    alt={`QR Code ${index}`}
+                                    className="qr-code-img"
+                                />
                             </div>
                         ))}
                     </div>

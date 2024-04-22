@@ -18,9 +18,26 @@ const QrAttendance = () => {
     const handleScanWebCam = async (result) => {
         try {
             if (result) {
-                const response = await axios.post('/qrcodes/validate', { code: result });
+                setAlert({
+                    mode: true,
+                    message: `Scanned Code: ${result}`,
+                    type: "bg-[blue]", // You can customize the color
+                });
+                const response = await axios.post(`/qrcodes/validate`, {code: result});
                 console.log(response.data.message); // Log the validation message
                 // Handle UI updates based on the response if needed
+                if (response.data.success) { // Assuming success property in response
+                    setAlert({
+                        mode: true,
+                        message: response.data.message || "QR code validated successfully!",
+                        type: "bg-[green]", // Success message type
+                    });
+                } else {
+                    setAlert({
+                        mode: true,
+                        message: response.data.message || "QR code validation failed.",
+                    });
+                }
             }
         } catch (error) {
             console.error('Error validating QR code:', error);

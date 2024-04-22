@@ -1,7 +1,9 @@
 import { useState } from 'react'; // Import useState from React
 import axiosPrivate from '../Api/axios.js'
+import useAuth from "./useAuth";
 
-const useRefreshSuperAdmin = (setAuth) => { // Pass setAuth as a parameter
+const useRefreshSuperAdmin = () => { // Pass setAuth as a parameter
+    const { setAuth } = useAuth();
     const [loading, setLoading] = useState(false);
 
     const refreshSuperAdmin = async () => {
@@ -18,7 +20,6 @@ const useRefreshSuperAdmin = (setAuth) => { // Pass setAuth as a parameter
                 "userId": response.data.userId,
                 "name": response.data.name,
                 "email": response.data.email,
-                "mobileno": response.data.mobileno,
                 "role": response.data.role,
                 "accessToken": response.data.accessToken
             }));

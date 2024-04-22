@@ -8,7 +8,7 @@ import dailyentryRouter from './Routes/dailyentryRoute.js';
 import statisticsRoute from './Routes/statisticsRoute.js';
 import inventoryRoute from './Routes/inventoryRoutes.js';
 import messRouter from './Routes/messRoutes.js';
-import QRCodeRoutes from './Routes/QRCodeRoutes.js';
+import qrcodeRouter from './Routes/QRCodeRoutes.js';
 import superAdminRoutes from './Routes/superadminRoutes.js';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
@@ -43,7 +43,7 @@ app.use("/userplan", userplanRoute);
 app.use("/dailyentry", dailyentryRouter);
 app.use("/stats", statisticsRoute);
 app.use("/inventory", inventoryRoute);
-app.use("/qrcodes", QRCodeRoutes);
+app.use("/qrcodes", qrcodeRouter);
 app.use('/messes', messRouter);
 app.use('/superadmins', superAdminRoutes);
 
