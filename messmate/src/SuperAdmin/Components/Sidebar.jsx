@@ -19,7 +19,9 @@ function Sidebar() {
   const active1 = Location.pathname === "/superadmin" ? `${activecolor}` : "";
 
   const active3 =
-    Location.pathname === "/superadmin/messmanagment" ? `${activecolor}` : "";
+    Location.pathname === "/superadmin/addmess" ? `${activecolor}` : "";
+  const active4 =
+      Location.pathname === "/superadmin/allmess" ? `${activecolor}` : "";
   const active5 =
     Location.pathname === "/superadmin/adduser" ? `${activecolor}` : "";
   const active7 =
@@ -58,33 +60,33 @@ function Sidebar() {
           </Link>
         </li>
 
-        {/*<li*/}
-        {/*  className={`w-[80%]  p-[1.2px]  mt-4 mx-auto py-[0.5rem]  rounded-xl ${active2}`}*/}
-        {/*>*/}
-        {/*  <Link*/}
-        {/*    className="flex  flex-row justify-start pl-1 pr-2 hover:no-underline  outline-none  shadow-soft-xl text-sm  m-auto items-center whitespace-nowrap rounded-lg   font-semibold "*/}
-        {/*    to="/admin/attendance"*/}
-        {/*  >*/}
-        {/*    <div className="shadow-soft-2xl  mr-2 flex h-[40px] w-[60px] items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-1.5">*/}
-        {/*      <img src={verified} alt="sdfsd" className="h-[50px] w-[100px]" />*/}
-        {/*    </div>*/}
-        {/*    <span className="ml-1 text-[1rem] hidden sm:block text-black hover:text-black">*/}
-        {/*      Daily Attendent*/}
-        {/*    </span>*/}
-        {/*  </Link>*/}
-        {/*</li>*/}
+        <li
+          className={`w-[80%]  p-[1.2px]  mt-4 mx-auto py-[0.5rem]  rounded-xl ${active4}`}
+        >
+          <Link
+            className="flex  flex-row justify-start pl-1 pr-2 hover:no-underline  outline-none  shadow-soft-xl text-sm  m-auto items-center whitespace-nowrap rounded-lg   font-semibold "
+            to="/superadmin/allmess"
+          >
+            <div className="shadow-soft-2xl  mr-2 flex h-[40px] w-[60px] items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-1.5">
+              <img src={verified} alt="sdfsd" className="h-[50px] w-[100px]" />
+            </div>
+            <span className="ml-1 text-[1rem] hidden sm:block text-black hover:text-black">
+              All Mess
+            </span>
+          </Link>
+        </li>
         <li
           className={`w-[80%]  p-[1.2px]  mt-4 mx-auto py-[0.5rem]  rounded-xl ${active3}`}
         >
           <Link
             className="flex  flex-row justify-start pl-1 pr-2 hover:no-underline  outline-none  shadow-soft-xl text-sm  m-auto items-center whitespace-nowrap rounded-lg   font-semibold "
-            to="/superadmin/messmanagment"
+            to="/superadmin/addmess"
           >
             <div className="shadow-soft-2xl  mr-2 flex h-[40px] w-[60px] items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-1.5">
               <img src={burger} alt="sdfsd" className="h-[50px] w-[100px]" />
             </div>
             <span className="ml-1 text-[1rem] hidden sm:block text-black hover:text-black">
-              QR Attendent
+              Add Mess
             </span>
           </Link>
         </li>
