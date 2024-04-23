@@ -157,6 +157,8 @@ function Modal({ setLoginmodal }) {
           ? "/admin"
           : role === 2
           ? "/employee"
+          : role === 3
+          ? "/superadmin"
           : "/unauthorized",
         {
           replace: true,
@@ -199,7 +201,7 @@ function Modal({ setLoginmodal }) {
       <div className="flex fixed left-[35%] min-w-[30%] max-w-[31%]   transform overflow-hidden  p-10  bg-white rounded-lg   flex-col    md:mt-0 ">
         <div className="flex">
           <h2 className="grow h-14 text-black text-3xl text-center font-medium title-font mb-2">
-            Add user
+            Login
           </h2>
           <div class="flex-none ">
             <img

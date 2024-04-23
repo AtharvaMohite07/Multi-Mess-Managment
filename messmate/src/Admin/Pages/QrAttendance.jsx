@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import QrReader from "react-qr-reader";
+import QrReader from "react-qr-scanner";
 import Alert from "../../Components/Alert";
 
 const QrAttendance = () => {
@@ -10,27 +10,31 @@ const QrAttendance = () => {
         type: "bg-[red]",
     });
 
+    const [cameraError, setCameraError] = useState(false);
+
     const handleErrorWebCam = (error) => {
-        console.error(error); // Log the error message
-        // Handle error scenarios if needed
+        console.error(error);
+        setCameraError(true); // Set camera error flag to true
     };
 
     const handleScanWebCam = async (result) => {
         try {
             if (result) {
-                setAlert({
-                    mode: true,
-                    message: `Scanned Code: ${result}`,
-                    type: "bg-[blue]", // You can customize the color
-                });
-                const response = await axios.post(`/qrcodes/validate`, {code: result});
+                // Process the scanned QR code text
+                console.log("Scanned Code:", result);
+
+                // Here you can proceed with the scanned QR code text for further processing or validation
+
+                // For example, you can make an axios POST request to validate the scanned QR code
+                const response = await axios.post(`/qrcodes/validate`, { code: result });
                 console.log(response.data.message); // Log the validation message
+
                 // Handle UI updates based on the response if needed
-                if (response.data.success) { // Assuming success property in response
+                if (response.data.success) {
                     setAlert({
                         mode: true,
                         message: response.data.message || "QR code validated successfully!",
-                        type: "bg-[green]", // Success message type
+                        type: "bg-[green]",
                     });
                 } else {
                     setAlert({
@@ -48,31 +52,20 @@ const QrAttendance = () => {
     return (
         <div>
             {alert.mode && <Alert alert={alert} setAlert={setAlert} />}
-
-            <div className="flex items-center justify-center h-screen">
-                {/* Your QR scanner component */}
-                <QrReader
-                    delay={300}
-                    onError={handleErrorWebCam}
-                    onScan={handleScanWebCam}
-                    style={{ width: "100%", height: "100%" }}
-                    cameraContainerStyle={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: "#000",
-                    }}
-                    cameraStyle={{
-                        width: "90%",
-                        height: "90%",
-                        objectFit: "cover",
-                        borderRadius: "5px",
-                        boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-                    }}
-                />
-            </div>
+            {cameraError && <div className="flex items-center justify-center h-screen">No camera access</div>}
+            {!cameraError && (
+                <div className="flex items-center justify-center h-screen">
+                    <QrReader
+                        delay={300}
+                        onError={handleErrorWebCam}
+                        onScan={handleScanWebCam}
+                        style={{ width: "100%", height: "100%" }}
+                        facingMode={"environment"} // Use the back camera if available
+                        legacyMode={true} // Use the legacy mode to improve compatibility
+                        resolution={1200} // Higher resolution for better scanability (adjust as needed)
+                    />
+                </div>
+            )}
         </div>
     );
 };

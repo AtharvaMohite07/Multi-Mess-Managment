@@ -11,7 +11,7 @@ const Navbar = () => {
   const [loginModal, setLoginmodal] = useState(false);
   return (
     <header className="text-gray-900 body-font">
-      <div className="container my-2 flex flex-wrap mt-2 max-w-[90%] rounded-2xl  mb-4 min-h-[10vh] bg-gradient-to-r from-[#020024] from-0% via-green-800 via-50%   to-lime-400 to-90%  flex-col md:flex-row items-center">
+      <div className="container my-2 flex flex-wrap mt-2 max-w-[90%] rounded-2xl  mb-4 min-h-[10vh] bg-gradient-to-r from-[#1B610A] from-0% via-green-800 via-50%   to-green-800 to-50%  flex-col md:flex-row items-center">
         <Link
           to="/"
           className="flex title-font font-medium items-center text-gray-900  md:mb-0"
@@ -23,6 +23,7 @@ const Navbar = () => {
           </span>
         </Link>
         <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
+          
           <Link
             to="/"
             className="mr-5 text-white text-lg hover:text-gray-900 hover:no-underline"
@@ -40,6 +41,12 @@ const Navbar = () => {
             className="mr-5 hover:text-gray-900 text-white text-lg hover:no-underline"
           >
             About us
+          </Link>
+          <Link
+            to="/"
+            className="mr-5 text-white text-lg hover:text-gray-900 hover:no-underline"
+          >
+            Request Access
           </Link>
         </nav>
         {auth.role === 0 ? (
@@ -120,7 +127,34 @@ const Navbar = () => {
               </svg>
             </button>
           </>
-        ) : (
+        ) : auth.role === 3 ? (
+            <>
+              <Link
+                  to="/superadmin"
+                  className="mr-5 inline-flex items-center  bg-black text-white font-semibold text-lg hover:no-underline py-1 px-3 focus:outline-none  rounded p-2 md:mt-0"
+              >
+                SuperAdmin
+              </Link>
+              <button
+                  className="inline-flex items-center bg-black border-0 text-white font-semibold text-lg mr-4 py-1 px-3 focus:outline-none  rounded    p-2 md:mt-0"
+                  onClick={logout}
+              >
+                Logout
+                <svg
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    className="w-4 h-4 ml-1"
+                    viewBox="0 0 24 24"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </button>
+            </>
+        ):
+            (
           <button
             className="inline-flex items-center bg-black border-0 text-white font-semibold text-lg mr-4 py-1 px-3 focus:outline-none  rounded    p-2 md:mt-0"
             onClick={() => setLoginmodal(true)}

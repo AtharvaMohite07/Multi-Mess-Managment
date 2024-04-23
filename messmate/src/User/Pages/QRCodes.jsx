@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../Api/axios";
 import useAuth from "../../Auth/useAuth";
-
+import QRCode from "react-qr-code";
 const QRCodes = () => {
     const [qrCodes, setQrCodes] = useState([]);
     const { auth } = useAuth();
@@ -28,7 +28,6 @@ const QRCodes = () => {
     }, [auth.userId]);
 
     console.log("QR Codes:", qrCodes);
-
     return (
         <div className="profilescanner m-auto flex items-center justify-center h-[40rem]">
             <div className="scanner flex-[1] h-[30rem] flex items-center justify-center">
@@ -46,12 +45,8 @@ const QRCodes = () => {
                             <div key={index} className="qr-code">
                                 <h2>{qrCode.mealType}</h2>
                                 <p>Validity Date: {new Date(qrCode.validityDate).toLocaleString()}</p>
-                                {/* Display QR code as image */}
-                                <img
-                                    src={`data:image/png;base64,${qrCode.qrCode.replace(/^data:image\/png;base64,/, "")}`}
-                                    alt={`QR Code ${index}`}
-                                    className="qr-code-img"
-                                />
+                                {/* Render QR code using react-qr-code directly from base64-encoded text */}
+                                <QRCode value={qrCode.qrCode} />
                             </div>
                         ))}
                     </div>

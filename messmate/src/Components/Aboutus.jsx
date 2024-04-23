@@ -19,12 +19,11 @@ function Aboutus() {
               />
               <div className="flex-grow sm:pl-8">
                 <h2 className="title-font font-medium  text-lg text-gray-900">
-                  Jenil Thakor
+                  Atharva Mohite
                 </h2>
-                <h3 className="text-gray-500 mb-3">Full-Stack Developer</h3>
+                <h3 className="text-gray-500 mb-3">Student</h3>
                 <p className="mb-4">
-                DIY tote bag drinking vinegar cronut adaptogen squid fanny
-                  pack vaporware.
+                Vishwakarma Institute of Techology.
                 </p>
                 <span className="inline-flex">
                   <a className="text-gray-500">
@@ -79,12 +78,11 @@ function Aboutus() {
               />
               <div className="flex-grow sm:pl-8">
                 <h2 className="title-font font-medium text-lg  text-gray-900">
-                  Aniket jadav
+                  Koustubh Soman
                 </h2>
-                <h3 className="text-gray-500 mb-3">Ui/UxDesigner</h3>
+                <h3 className="text-gray-500 mb-3">Student</h3>
                 <p className="mb-4">
-                  DIY tote bag drinking vinegar cronut adaptogen squid fanny
-                  pack vaporware.
+                  Vishwakarma Institute of Techology.
                 </p>
                 <span className="inline-flex">
                   <a className="text-gray-500">
@@ -139,12 +137,11 @@ function Aboutus() {
               />
               <div className="flex-grow sm:pl-8">
                 <h2 className="title-font font-medium text-lg text-gray-900">
-                  Hirani Raghav
+                  Saurav Deshmukh
                 </h2>
-                <h3 className="text-gray-500 mb-3">Full-Stack Developer </h3>
+                <h3 className="text-gray-500 mb-3">Student</h3>
                 <p className="mb-4">
-                  DIY tote bag drinking vinegar cronut adaptogen squid fanny
-                  pack vaporware.
+                  Vishwakarma Institute of Techology.
                 </p>
                 <span className="inline-flex">
                   <a className="text-gray-500">
@@ -199,12 +196,11 @@ function Aboutus() {
               />
               <div className="flex-grow sm:pl-8">
                 <h2 className="title-font font-medium text-lg text-gray-900">
-                  Gunjan Surti
+                  Neha Bhavar
                 </h2>
-                <h3 className="text-gray-500 mb-3"> UI Designer</h3>
+                <h3 className="text-gray-500 mb-3">Student</h3>
                 <p className="mb-4">
-                  DIY tote bag drinking vinegar cronut adaptogen squid fanny
-                  pack vaporware.
+                  Vishwakarma Institute of Techology.
                 </p>
                 <span className="inline-flex">
                   <a className="text-gray-500">

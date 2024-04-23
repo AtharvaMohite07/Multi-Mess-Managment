@@ -7,8 +7,8 @@ const Footer = () => {
 
         <div class="px-14 py-6 mt-auto bg-black rounded-t-2xl pb-9  md:flex md:items-center md:justify-between">
           <span class="text-sm font-semibold text text-gray-300 sm:text-center ">
-            © 2023 <a href="http://localhost/" className="text-white hover:no-underline	">The Quad Coders </a>. All Rights
-            Reserved.
+            BTech 2023-24 <a className="text-white hover:no-underline	">AI&DS </a>. VIT
+            Pune.
           </span>
           <div class="flex  space-x-6 sm:justify-center md:mt-0">
             <a
