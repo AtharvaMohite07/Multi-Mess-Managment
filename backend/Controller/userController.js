@@ -51,7 +51,7 @@ export const getUser = asyncHandler(async (req , res) => {
 export const createNewUser = asyncHandler(async (req , res) => {
 
     // read data from req body
-    const {name , email , mobileno,role , password , cpassword} = req.body
+    const {name , email , mobileno ,role , password , cpassword} = req.body
     // console.log(role);
 
     // duplicate entry

@@ -1,19 +1,34 @@
 import { Router } from "express";
 const messRouter = Router();
-import {createMess, getMesses, getMessById,updateMess,deleteMess} from '../controller/messController.js';
-import {requireSuperAdmin} from '../middleware/authMiddleware.js';
+import {createMess, getMesses, getMessByEmail,updateMess,deleteMess} from '../controller/messController.js';
 
-messRouter.post('/createmess', requireSuperAdmin, createMess);
+messRouter.post('/createmess', createMess);
 
-// Get all messes (protected)
-messRouter.get('/', requireSuperAdmin, getMesses);
+messRouter.get('/getmess', getMesses);
 
-// Get a mess by ID (protected)
-messRouter.get('/:id', requireSuperAdmin, getMessById);
+messRouter.get('/getmessbyemail/:email',getMessByEmail);
 
-// Update a mess by ID (protected)
-messRouter.put('/:id', requireSuperAdmin, updateMess);
+messRouter.put('/update/:id', updateMess);
 
-// Delete a mess by ID (protected)
-messRouter.delete('/:id', requireSuperAdmin, deleteMess);
+messRouter.delete('/delete/:email', deleteMess);
 export default messRouter;
+//
+// import { Router } from "express";
+// const messRouter = Router();
+// import {createMess, getMesses, getMessById,updateMess,deleteMess} from '../controller/messController.js';
+// import {requireSuperAdmin} from '../middleware/authMiddleware.js';
+//
+// messRouter.post('/createmess', requireSuperAdmin, createMess);
+//
+// // Get all messes (protected)
+// messRouter.get('/getmess', requireSuperAdmin, getMesses);
+//
+// // Get a mess by ID (protected)
+// messRouter.get('/getmessById/:id', requireSuperAdmin, getMessById);
+//
+// // Update a mess by ID (protected)
+// messRouter.put('/update/:id', requireSuperAdmin, updateMess);
+//
+// // Delete a mess by ID (protected)
+// messRouter.delete('/delete/:id', requireSuperAdmin, deleteMess);
+// export default messRouter;

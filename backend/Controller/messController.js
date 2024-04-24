@@ -5,8 +5,9 @@ export async function createMess(req, res) {
         messName,
         location,
         capacity,
-        contactPersonName,  // Assuming you get the contact person's name in the request body
-        contactPersonPhoneNumber,
+        ContactPersonName,  // Assuming you get the contact person's name in the request body
+        ContactPersonPhoneNumber,
+        ContactPersonEmail,
         menuType,
         isActive
     } = req.body;
@@ -17,8 +18,9 @@ export async function createMess(req, res) {
             location,
             capacity,
             contactPerson: {
-                name: contactPersonName,
-                phoneNumber: contactPersonPhoneNumber
+                name: ContactPersonName,
+                phoneNumber: ContactPersonPhoneNumber,
+                email: ContactPersonEmail
             },
             menuType,
             isActive
@@ -30,7 +32,7 @@ export async function createMess(req, res) {
         console.error(err);
         res.status(500).json({ message: 'Error creating mess' });
     }
-};
+}
 
 export async function getMesses(req, res) {
     try {
@@ -40,11 +42,10 @@ export async function getMesses(req, res) {
         console.error(err);
         res.status(500).json({ message: 'Error retrieving messes' });
     }
-};
-export async function getMessById(req, res) {
+}
+export async function getMessByEmail(req, res) {
     try {
-        const messId = req.params.id;
-        const mess = await Mess.findById(messId);
+        const mess = await Mess.findOne({ email: req.params.email });
         if (!mess) {
             return res.status(404).json({ message: 'Mess not found' });
         }
@@ -53,7 +54,7 @@ export async function getMessById(req, res) {
         console.error(err);
         res.status(500).json({ message: 'Error retrieving mess' });
     }
-};
+}
 export async function updateMess(req, res){
     try {
         const messId = req.params.id;
@@ -63,6 +64,7 @@ export async function updateMess(req, res){
             capacity,
             contactPersonName,
             contactPersonPhoneNumber,
+            contactPersonEmail,
             menuType,
             isActive
         } = req.body;
@@ -75,7 +77,8 @@ export async function updateMess(req, res){
                 capacity,
                 contactPerson: {
                     name: contactPersonName,
-                    phoneNumber: contactPersonPhoneNumber
+                    phoneNumber: contactPersonPhoneNumber,
+                    email: contactPersonEmail
                 },
                 menuType,
                 isActive
@@ -91,17 +94,27 @@ export async function updateMess(req, res){
         console.error(err);
         res.status(500).json({ message: 'Error updating mess' });
     }
-};
-export async function deleteMess(req, res) {
-    try {
-        const messId = req.params.id;
-        const deletedMess = await Mess.findByIdAndDelete(messId);
-        if (!deletedMess) {
-            return res.status(404).json({ message: 'Mess not found' });
-        }
-        res.json({ message: 'Mess deleted successfully' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Error deleting mess' });
+}
+export const deleteMess = asyncHandler(async (req, res) => {
+    const messEmail = req.params.email;
+
+    // Validate if the email is provided
+    if (!messEmail) {
+        return res.status(400).json({ message: 'Mess Email Required' });
     }
-};
+
+    // Check if the mess exists
+    const mess = await Mess.findOne({ email: messEmail }).exec();
+
+    if (!mess) {
+        return res.status(400).json({ message: 'Mess not found' });
+    }
+
+    // Delete the mess
+    const result = await Mess.deleteOne({ email: messEmail });
+
+    // Construct response message
+    const reply = `Mess ${messEmail} deleted`;
+
+    res.json({ message: reply });
+});
