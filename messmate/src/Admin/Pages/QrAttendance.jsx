@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../../Api/axios";
 import QrReader from "react-qr-scanner";
 import Alert from "../../Components/Alert";
 
@@ -23,10 +23,11 @@ const QrAttendance = () => {
                 // Process the scanned QR code text
                 console.log("Scanned Code:", result);
 
-                // Here you can proceed with the scanned QR code text for further processing or validation
+                // Extract the text property from the result object
+                const qrCodeText = result.text;
 
-                // For example, you can make an axios POST request to validate the scanned QR code
-                const response = await axios.post(`/qrcodes/validate`, { code: result });
+                // Make an axios POST request to validate the scanned QR code
+                const response = await axios.post(`/qrcodes/validate`, { code: qrCodeText });
                 console.log(response.data.message); // Log the validation message
 
                 // Handle UI updates based on the response if needed

@@ -1,7 +1,8 @@
 import QRCode from '../Models/QRCode.js';
 import qrcode from 'qrcode';
 import CryptoJS from 'crypto-js';
-import { updateDailyEntry } from './DailyEntryController.js';
+import axios from 'axios';
+import { updateDailyEntry } from '../Controller/dailyentryController.js';
 
 // Encryption Key (replace with your secure key)
 import * as crypto from 'crypto';
@@ -10,7 +11,7 @@ import * as crypto from 'crypto';
 //const encryptionKey = 'appleadaykeepsdoctoraway'
 const encryptionKey = 'de4f927dc1e812d74cab41efcf22c5ac9d866ba2befa9d7f1602287723e2b0e4';
 
-console.log(encryptionKey);
+//console.log(encryptionKey);
 
 export async function generateQRCode(userId, planId, validityDate, mealType) {
     return new Promise(async (resolve, reject) => {
@@ -26,11 +27,8 @@ export async function generateQRCode(userId, planId, validityDate, mealType) {
             // Encrypt the data before generating the QR code
             const dataToEncrypt = JSON.stringify({userId, planId, mealType});
             console.log(dataToEncrypt);
-            const encryptedData = CryptoJS.AES.encrypt(dataToEncrypt, encryptionKey).toString();
-
-            // Generate the QR code
-            const qrCodeDataUrl = await qrcode.toDataURL(encryptedData);
-            const qrCodeData = qrCodeDataUrl.split(',')[1];
+            const code = CryptoJS.AES.encrypt(dataToEncrypt, encryptionKey).toString();
+            console.log(code);
 
 
             // Create a new QRCode document
@@ -39,7 +37,7 @@ export async function generateQRCode(userId, planId, validityDate, mealType) {
                 planId,
                 validityDate,
                 mealType,
-                code: qrCodeData // Store the generated QR code data URL
+                code // Store the generated QR code data URL
             });
 
             // Save the QRCode document
@@ -47,7 +45,7 @@ export async function generateQRCode(userId, planId, validityDate, mealType) {
 
             resolve({
                 message: 'QR code generated successfully.',
-                qrCode: newQRCode
+                code
             });
         } catch (err) {
             console.error(err);
@@ -61,12 +59,12 @@ export async function generateQRCode(userId, planId, validityDate, mealType) {
 export async function validateQRCode(req, res) {
     try {
         // Access the 'text' property from the request body
-        const { text } = req.body; // Access the 'text' property from the request body
-        console.log("QR Code Text:", text);
+        const { code } = req.body; // Access the 'text' property from the request body
+        console.log("QR Code Text:", code);
 
 
         // Fetch the QR code document from the database based on the received QR code
-        const qrCode = await QRCode.findOne({"code":text});
+        const qrCode = await QRCode.findOne({code});
         // Check if a QR code document is found for the provided raw data
         if (!qrCode) {
             return res.status(400).json({ message: 'QR code not found in the database.' });
@@ -96,7 +94,35 @@ export async function validateQRCode(req, res) {
         qrCode.usageCount++;
         qrCode.isUsed = true;
         await qrCode.save();
-        await updateDailyEntry(userId, mealType, planId);
+        const verifyThing = mealType;
+        const requestBody = {
+            body: {
+                userId: userId,
+                verifyThing: verifyThing,
+                planId: planId
+            }
+        };
+        const responseBody = {
+            // Method to send JSON response
+            json: function(data) {
+                // Convert data to JSON string and log it
+                console.log(JSON.stringify(data));
+            },
+            // Method to send plain text response
+            send: function(text) {
+                // Log the text
+                console.log(text);
+            },
+            // Method to set status code
+            status: function(code) {
+                // Log the status code
+                console.log(`Status Code: ${code}`);
+                // Return the responseBody object for method chaining
+                return responseBody;
+            }
+        };
+
+        await updateDailyEntry(requestBody, responseBody);
 
         // Placeholder response for successful validation
         return res.status(200).json({ message: 'QR code validated successfully.' });

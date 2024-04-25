@@ -1,5 +1,7 @@
 import DailyEntry from "../Models/DailyEntry.js";
 import bcrypt from 'bcrypt'
+import UserPlan from "../Models/UserPlan.js";
+import User from "../Models/User.js";
 import asyncHandler from 'express-async-handler'
 
 export const getUserEntryDetail = asyncHandler(async (req , res) => {
@@ -19,93 +21,83 @@ export const getUserEntryDetail = asyncHandler(async (req , res) => {
 
     res.json(entry);
 
-}) 
-
-export const updateDailyEntry = asyncHandler(async (req, res) => {
-    const {userId , verifyThing , planId } = req.body
-
-    if(!verifyThing)
-    {
-        return res.status(400).json({message:"Select type required"})
-    }
-    // console.log(userId,verifyThing,planId);
-    // Does the user exist to update?
-    const user = await DailyEntry.findOne({"userId":userId}).exec()
-
-    if (!user) {
-            return res.status(400).json({ message: 'User not found'});
-    }
-    // console.log(user);
-    const date = new Date()
-    console.log(user);
-    const isTodayAdded = user.attendance.filter(item => {
-        // console.log(item.date);
-        if( item.date.getDate()===date.getDate() && item.date.getMonth()===date.getMonth() && item.date.getYear()===date.getYear())
-        {
-            return item
-        }
-    });
-
-    // console.log(isTodayAdded);
-    
-    const length = isTodayAdded.length
-
-    var updatedObject={}
-    // console.log(isTodayAdded[0]);
-    if(verifyThing==="breakfast")
-    {
-        updatedObject = {"breakfast":true , "lunch":length==0?false:isTodayAdded[0].menu.lunch , "dinner":length==0?false:isTodayAdded[0].menu.dinner }
-    }
-    else if(verifyThing==="lunch")
-    {
-        updatedObject = {"breakfast": length==0?false:isTodayAdded[0].menu.breakfast, "lunch":true , "dinner":length==0?false:isTodayAdded[0].menu.dinner }
-        
-    }
-    else if(verifyThing==="dinner"){
-        updatedObject = {"breakfast": length==0?false:isTodayAdded[0].menu.breakfast, "lunch":length==0?false:isTodayAdded[0].menu.lunch , "dinner":true }
-    }
-    else
-    {
-        // const updatedObject = {"breakfast": isTodayAdded[0].menu.breakfast, "lunch":isTodayAdded[0].menu.lunch , "dinner":true }
-        return res.json({message :"No verify thing is access"})
-    }
-    
-    // console.log(updatedObject);
-    if(isTodayAdded.length === 1)
-    {
-        if(((verifyThing==="breakfast")&&isTodayAdded[0].menu.breakfast)||((verifyThing==="lunch")&&isTodayAdded[0].menu.lunch) || ((verifyThing==="dinner")&&isTodayAdded[0].menu.dinner))
-        {
-            // console.log("here is problem");
-            return res.status(400).json({message:`Your ${verifyThing} entry is already added`})
-        }
-
-        const updateEntry = await DailyEntry.updateOne({"userId":userId } , {
-            $set:{
-                "attendance.$[elemX].menu" : updatedObject
-            }},
-            {
-                "arrayFilters" : [{"elemX.date":isTodayAdded[0].date}]
-            }
-        )
-        return res.json({message:`Daily entery updated for ${verifyThing}`})
-    }
-
-    else
-    {
-        // console.log("Print this"); 
-        const today_date = new Date();
-        // console.log(today_date);
-        const dailyEntryObject = {"date":today_date,"currPlanId":planId , "menu":updatedObject}
-
-        const updateEntry = await DailyEntry.updateOne({"userId":userId } , {
-            $push:{
-                "attendance":dailyEntryObject
-            }},
-        )
-        return res.json({message:`Daily entery updated for ${verifyThing}`})
-    }
 })
+export const updateDailyEntry = asyncHandler(async (req, res) => {
+    const { userId, verifyThing, planId } = req.body;
 
+    if (!verifyThing) {
+        return res.status(400).json({ message: 'Select type required' });
+    }
+
+    try {
+        // Check if the user exists in the DailyEntry collection
+        let user = await DailyEntry.findOne({ "userId": userId }).exec();
+
+        // If the user is not found, create a new entry
+        if (!user) {
+            user = await DailyEntry.create({ userId, attendance: [] });
+        }
+
+        const date = new Date();
+        const isTodayAdded = user.attendance.find(item =>
+            item.date.getDate() === date.getDate() &&
+            item.date.getMonth() === date.getMonth() &&
+            item.date.getFullYear() === date.getFullYear()
+        );
+
+        if (isTodayAdded) {
+            if ((verifyThing === "breakfast" && isTodayAdded.menu.breakfast) ||
+                (verifyThing === "lunch" && isTodayAdded.menu.lunch) ||
+                (verifyThing === "dinner" && isTodayAdded.menu.dinner)) {
+                return res.status(400).json({ message: `Your ${verifyThing} entry is already added` });
+            }
+
+            const updateEntry = await DailyEntry.updateOne(
+                { "userId": userId },
+                { $set: { [`attendance.$[elemX].menu.${verifyThing}`]: true } },
+                { arrayFilters: [{ "elemX.date": isTodayAdded.date }] }
+            );
+
+            // Update user plan availability
+            const updateIsAvailable = await UserPlan.updateOne(
+                { userId, planId, "isavailable.date": date },
+                { $set: { [`isavailable.$.${verifyThing}`]: false } }
+            );
+
+            if (updateIsAvailable.nModified === 0) {
+                return res.status(400).json({ message: `Failed to update isavailable field for ${verifyThing}` });
+            }
+
+            return res.json({ message: `Daily entry updated for ${verifyThing}` });
+        } else {
+            const dailyEntryObject = {
+                "date": date,
+                "currPlanId": planId,
+                "menu": { [verifyThing]: true }
+            };
+
+            const updateEntry = await DailyEntry.updateOne(
+                { "userId": userId },
+                { $push: { "attendance": dailyEntryObject } }
+            );
+
+            // Update user plan availability
+            const updateIsAvailable = await UserPlan.updateOne(
+                { userId, planId, "isavailable.date": date },
+                { $set: { [`isavailable.$.${verifyThing}`]: false } }
+            );
+
+            if (updateIsAvailable.nModified === 0) {
+                return res.status(400).json({ message: `Failed to update isavailable field for ${verifyThing}` });
+            }
+
+            return res.json({ message: `Daily entry updated for ${verifyThing}` });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
 // export const deleteUser = asyncHandler(async (req, res) => {
 //     const { id } = req.body
 
