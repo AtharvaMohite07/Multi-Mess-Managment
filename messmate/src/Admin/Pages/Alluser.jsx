@@ -80,58 +80,63 @@ function Alluser() {
     .slice(startingindex, startingindex + row)
     .map((user) => {
       return (
-        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-          <td className="w-4 p-4">
-            <div className="flex items-center justify-center text-black">
-              {user.userId}
-            </div>
-          </td>
-          <td className="text-black px-6 py-4">
-            <div className="flex items-center justify-center text-black">
-              {user.name}
-            </div>
-          </td>
-          <td className="px-6 py-4">
-            <div className="flex items-center justify-center  text-black">
-              {user.email}
-            </div>
-          </td>
-          <td className="px-6 py-4">
-            <div className="flex items-center justify-center text-black">
-              {user.mobileno}
-            </div>
-          </td>
-          <td className="px-6 py-4">
-            <div className="flex items-center justify-center text-black">
-              {user.role === 1 ? (
-                <p className="bg-lime-300 rounded-md p-[2.5px] px-2  text-black text-sm">
-                  Admin
-                </p>
-              ) : user.role === 2 ? (
-                <p className="px-2 text-black text-sm ">Employee</p>
-              ) : (
-                <p className="px-2 text-black text-sm ">User</p>
-              )}
-            </div>
-          </td>
-          <td className="px-6 py-4">
-            {/* <button>Edit </button> */}
-            <button
-              type="button"
-              class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-3 py-[0.5rem] text-center mr-2 mb-2 "
-              onClick={() => handleEdit(user.email)}
-            >
-              Edit
-            </button>
-            <button
-              type="button"
-              class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-3 py-[0.5rem] text-center mr-2 mb-2"
-              onClick={() => handleDelete(user.email)}
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
+          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <td className="w-4 p-4">
+              <div className="flex items-center justify-center text-black">
+                {user.userId}
+              </div>
+            </td>
+            <td className="w-4 p-4">
+              <div className="flex items-center justify-center text-black">
+                {user.messId}
+              </div>
+            </td>
+            <td className="text-black px-6 py-4">
+              <div className="flex items-center justify-center text-black">
+                {user.name}
+              </div>
+            </td>
+            <td className="px-6 py-4">
+              <div className="flex items-center justify-center  text-black">
+                {user.email}
+              </div>
+            </td>
+            <td className="px-6 py-4">
+              <div className="flex items-center justify-center text-black">
+                {user.mobileno}
+              </div>
+            </td>
+            <td className="px-6 py-4">
+              <div className="flex items-center justify-center text-black">
+                {user.role === 1 ? (
+                    <p className="bg-lime-300 rounded-md p-[2.5px] px-2  text-black text-sm">
+                      Admin
+                    </p>
+                ) : user.role === 2 ? (
+                    <p className="px-2 text-black text-sm ">Employee</p>
+                ) : (
+                    <p className="px-2 text-black text-sm ">User</p>
+                )}
+              </div>
+            </td>
+            <td className="px-6 py-4">
+              {/* <button>Edit </button> */}
+              <button
+                  type="button"
+                  class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-3 py-[0.5rem] text-center mr-2 mb-2 "
+                  onClick={() => handleEdit(user.email)}
+              >
+                Edit
+              </button>
+              <button
+                  type="button"
+                  class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-3 py-[0.5rem] text-center mr-2 mb-2"
+                  onClick={() => handleDelete(user.email)}
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
       );
     });
   // console.log(content)
@@ -203,26 +208,29 @@ function Alluser() {
 
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-white uppercase bg-dark dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3 w-[10rem] text-center">
-              UserId
-            </th>
-            <th scope="col" className="px-6 py-3 w-[10rem] text-center">
-              Name
-            </th>
-            <th scope="col" className="px-6 py-3 w-[10rem] text-center">
-              Email id
-            </th>
-            <th scope="col" className="px-6 py-3 w-[10rem] text-center">
-              Mobile no
-            </th>
-            <th scope="col" className="px-6 py-3 w-[10rem] text-center">
-              Role
-            </th>
-            <th scope="col" className="px-6 py-3 w-[10rem] text-center">
-              Operation
-            </th>
-          </tr>
+        <tr>
+          <th scope="col" className="px-6 py-3 w-[10rem] text-center">
+            UserId
+          </th>
+          <th scope="col" className="px-6 py-3 w-[10rem] text-center">
+            MessId
+          </th>
+          <th scope="col" className="px-6 py-3 w-[10rem] text-center">
+            Name
+          </th>
+          <th scope="col" className="px-6 py-3 w-[10rem] text-center">
+            Email id
+          </th>
+          <th scope="col" className="px-6 py-3 w-[10rem] text-center">
+            Mobile no
+          </th>
+          <th scope="col" className="px-6 py-3 w-[10rem] text-center">
+            Role
+          </th>
+          <th scope="col" className="px-6 py-3 w-[10rem] text-center">
+            Operation
+          </th>
+        </tr>
         </thead>
         {/* ---------------------------------------------------------------------------------------------- */
         /*                                        table inner part                                        */

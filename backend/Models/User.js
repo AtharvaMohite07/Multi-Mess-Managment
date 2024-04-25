@@ -5,9 +5,8 @@ import DailyEntry from './DailyEntry.js';
 
 const userSchema = new mongoose.Schema({
      messId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Mess',
-            required: true
+            type: Number,
+            required: [true , 'Please enter Mess ID']
         },
     // Optional field for clarity
 

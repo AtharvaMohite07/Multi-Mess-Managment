@@ -34,8 +34,15 @@ const QrAttendance = () => {
                 if (response.data.success) {
                     setAlert({
                         mode: true,
-                        message: response.data.message || "QR code validated successfully!",
+                        message: response.data.message ,
                         type: "bg-[green]",
+                    });
+                } else if (response.data.alreadyUsed) {
+                    // Handle already used scenario
+                    setAlert({
+                        mode: true,
+                        message: "QR code already used. Attendance already marked.",
+                        type: "bg-[orange]", // Or any appropriate color for already used
                     });
                 } else {
                     setAlert({

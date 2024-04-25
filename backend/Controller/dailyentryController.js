@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import UserPlan from "../Models/UserPlan.js";
 import User from "../Models/User.js";
 import asyncHandler from 'express-async-handler'
+import moment from 'moment';
 
 export const getUserEntryDetail = asyncHandler(async (req , res) => {
     const userId = req.params.userId
@@ -30,6 +31,7 @@ export const updateDailyEntry = asyncHandler(async (req, res) => {
     }
 
     try {
+
         // Check if the user exists in the DailyEntry collection
         let user = await DailyEntry.findOne({ "userId": userId }).exec();
 
@@ -37,7 +39,7 @@ export const updateDailyEntry = asyncHandler(async (req, res) => {
         if (!user) {
             user = await DailyEntry.create({ userId, attendance: [] });
         }
-
+        const momentDate = moment().utcOffset('+05:30').startOf('day');
         const date = new Date();
         const isTodayAdded = user.attendance.find(item =>
             item.date.getDate() === date.getDate() &&
@@ -60,7 +62,14 @@ export const updateDailyEntry = asyncHandler(async (req, res) => {
 
             // Update user plan availability
             const updateIsAvailable = await UserPlan.updateOne(
-                { userId, planId, "isavailable.date": date },
+                {
+                    userId,
+                    planId,
+                    "isavailable.date": {
+                        $gte: momentDate.toDate(),
+                        $lt:  momentDate.add(1, 'day').toDate()
+                    }
+                },
                 { $set: { [`isavailable.$.${verifyThing}`]: false } }
             );
 
@@ -83,15 +92,21 @@ export const updateDailyEntry = asyncHandler(async (req, res) => {
 
             // Update user plan availability
             const updateIsAvailable = await UserPlan.updateOne(
-                { userId, planId, "isavailable.date": date },
+                {
+                    userId,
+                    planId,
+                    "isavailable.date": {
+                        $gte: momentDate.toDate(),
+                        $lt: momentDate.add(1, 'day').toDate()
+                    }
+                },
                 { $set: { [`isavailable.$.${verifyThing}`]: false } }
             );
-
             if (updateIsAvailable.nModified === 0) {
                 return res.status(400).json({ message: `Failed to update isavailable field for ${verifyThing}` });
             }
 
-            return res.json({ message: `Daily entry updated for ${verifyThing}` });
+            return res.status(200).json.json({ message: `Daily entry updated for ${verifyThing}` });
         }
     } catch (error) {
         console.error(error);

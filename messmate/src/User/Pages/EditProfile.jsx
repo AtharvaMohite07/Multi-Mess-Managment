@@ -20,7 +20,7 @@ const EditProfile = () => {
             <span className="mb-4 leading-relaxed">
               User can see menu and subscription plan added by admin . Also user
               can give their attendance by using QR code generated on your
-              dashboard. User can track their attendance record in Attendance
+              QR Code Option. User can track their attendance record in Attendance
               section date by date.
             </span>
             <span className="my-2 bg-blue-300 p-2 w-[15rem] rounded shadow-xl leading-relaxed">

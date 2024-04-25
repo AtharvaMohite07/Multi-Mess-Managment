@@ -17,6 +17,7 @@ function EditModal(props) {
 
   const [name, setName] = useState("");
   const [id, setId] = useState(0);
+  const [messId, setMessId] = useState(0);
 
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
@@ -53,6 +54,7 @@ function EditModal(props) {
 
         // console.log("Get All User", response.data);
         setName(response.data.name);
+        setMessId(response.data.messId);
         setEmail(response.data.email);
         setMobileNo(response.data.mobileno);
         setId(response.data.userId);
@@ -79,7 +81,7 @@ function EditModal(props) {
     try {
       const response = await axios.patch(
         `/users/update/${id}`,
-        JSON.stringify({ name, email, mobileno, role }),
+        JSON.stringify({ name, messId, email, mobileno, role }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
@@ -130,34 +132,50 @@ function EditModal(props) {
         <form>
           <div className="relative mb-4">
             <label
-              htmlFor="full-name"
-              className="leading-7 text-sm text-gray-600"
+                htmlFor="full-name"
+                className="leading-7 text-sm text-gray-600"
             >
               User Id
             </label>
             <input
-              type="text"
-              id="full-name"
-              name="name"
-              onChange={(e) => e.target.value}
-              value={id}
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                type="text"
+                id="full-name"
+                name="name"
+                onChange={(e) => e.target.value}
+                value={id}
+                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
           <div className="relative mb-4">
             <label
-              htmlFor="full-name"
-              className="leading-7 text-sm text-gray-600"
+                htmlFor="full-name"
+                className="leading-7 text-sm text-gray-600"
+            >
+              Mess ID
+            </label>
+            <input
+                type="text"
+                id="full-name"
+                name="name"
+                onChange={(e) => setMessId(e.target.value)}
+                value={messId}
+                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+          </div>
+          <div className="relative mb-4">
+            <label
+                htmlFor="full-name"
+                className="leading-7 text-sm text-gray-600"
             >
               Full Name
             </label>
             <input
-              type="text"
-              id="full-name"
-              name="name"
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                type="text"
+                id="full-name"
+                name="name"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
           <div className="relative mb-4">
@@ -165,28 +183,28 @@ function EditModal(props) {
               Email
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                type="email"
+                id="email"
+                name="email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
           <div className="relative mb-4">
             <label
-              htmlFor="contact"
-              className="leading-7 text-sm text-gray-600"
+                htmlFor="contact"
+                className="leading-7 text-sm text-gray-600"
             >
               Contact Number
             </label>
             <input
-              type="number"
-              id="contact"
-              name="mobileno"
-              onChange={(e) => setMobileNo(e.target.value)}
-              value={mobileno}
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                type="number"
+                id="contact"
+                name="mobileno"
+                onChange={(e) => setMobileNo(e.target.value)}
+                value={mobileno}
+                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
           <div className="relative mb-4">
@@ -194,23 +212,23 @@ function EditModal(props) {
               Role
             </label>
             <select
-              id="countries_disabled"
-              name="role"
-              onChange={(e) => setRole(e.target.value)}
-              value={role}
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                id="countries_disabled"
+                name="role"
+                onChange={(e) => setRole(e.target.value)}
+                value={role}
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option value={0} defaultChecked>
                 User
               </option>
-              <option value={1}> Admin </option>
-              <option value={2}> Employee </option>
+              <option value={1}> Admin</option>
+              <option value={2}> Employee</option>
             </select>
           </div>
 
           <button
-            onClick={handleUpdate}
-            className="text-white bg-indigo-600 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+              onClick={handleUpdate}
+              className="text-white bg-indigo-600 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
           >
             Update User
           </button>
@@ -219,4 +237,5 @@ function EditModal(props) {
     </div>
   );
 }
+
 export default EditModal;

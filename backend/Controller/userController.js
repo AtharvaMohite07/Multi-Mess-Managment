@@ -31,27 +31,27 @@ export const getOneUser = asyncHandler(async (req , res) => {
 
     res.json(user)
 })
-export const getUser = asyncHandler(async (req , res) => {
-    const userId = req.params.userId
-    if (!userId) {
-        return res.status(400).json({ message: 'User ID Required' })
-    }
-
-    const user = await User.findOne({"userId":userId},{password:0,cpassword:0}).lean()
-
-    // If no users 
-    if (!user) {
-        return res.status(400).json({ message: 'No users found' })
-    }
-
-    res.json(user)
-})
+// export const getUser = asyncHandler(async (req , res) => {
+//     const userId = req.params.userId
+//     if (!userId) {
+//         return res.status(400).json({ message: 'User ID Required' })
+//     }
+//
+//     const user = await User.findOne({"userId":userId},{password:0,cpassword:0}).lean()
+//
+//     // If no users
+//     if (!user) {
+//         return res.status(400).json({ message: 'No users found' })
+//     }
+//
+//     res.json(user)
+// })
 
 
 export const createNewUser = asyncHandler(async (req , res) => {
 
     // read data from req body
-    const {name , email , mobileno ,role , password , cpassword} = req.body
+    const {name , messId, email , mobileno ,role , password , cpassword} = req.body
     // console.log(role);
 
     // duplicate entry
@@ -86,12 +86,12 @@ export const createNewUser = asyncHandler(async (req , res) => {
 })
 
 export const updateUser = asyncHandler(async (req, res) => {
-    const {name , email , mobileno,role } = req.body
+    const {name , messId, email , mobileno ,role } = req.body
     const uid  = req.params.id
     // console.log(uid);
     // Does the user exist to update?
     const user = await User.findOne({"userId":uid}).exec()
-    // console.log(user);
+    // console.log(messId);
     if (!user) {
         return res.status(400).json({ message: 'User not found' })
     }
@@ -104,8 +104,8 @@ export const updateUser = asyncHandler(async (req, res) => {
         return res.status(409).json({ message: 'Duplicate email or mobileno' })
     }
 
-    const updatedObject = {name , email , mobileno , role}
-    // console.log(updatedObject);
+    const updatedObject = {name , messId, email , mobileno , role}
+    //console.log(updatedObject);
     const updatedUser = await User.updateOne({"userId":uid} , updatedObject);
 
     if(updateUser)

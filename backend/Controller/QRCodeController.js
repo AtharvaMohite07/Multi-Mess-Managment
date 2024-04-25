@@ -83,6 +83,7 @@ export async function validateQRCode(req, res) {
         const todayEnd = new Date().setHours(23, 59, 59, 999);
         const todaysUsage = await QRCode.countDocuments({
             userId: parseInt(userId),
+            mealType,
             updatedAt: { $gte: todayStart, $lte: todayEnd }
         });
 
@@ -122,11 +123,24 @@ export async function validateQRCode(req, res) {
             }
         };
 
-        await updateDailyEntry(requestBody, responseBody);
+        const updateResult = await updateDailyEntry(requestBody, responseBody);
 
         // Placeholder response for successful validation
-        return res.status(200).json({ message: 'QR code validated successfully.' });
-
+        if (updateResult.status === 200) {
+            // Success response from updateDailyEntry
+            return res.status(200).json({
+                message: 'QR code validated successfully.',
+                alreadyUsed: false,
+                success: true
+            });
+        } else {
+            // Error response from updateDailyEntry
+            return res.status(updateResult.status).json({
+                message: updateResult.message,
+                alreadyUsed: false, // Or set true if appropriate
+                success: false
+            });
+        }
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Internal server error.' });
