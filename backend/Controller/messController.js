@@ -55,6 +55,21 @@ export async function getMessByEmail(req, res) {
         res.status(500).json({ message: 'Error retrieving mess' });
     }
 }
+
+export async function getMessById(req, res) {
+    try {
+        const mess = await Mess.findOne({ messId: req.params.id });
+        console.log(req.params.id);
+        if (!mess) {
+            return res.status(404).json({ message: 'Mess not found' });
+        }
+        res.json(mess.messName);
+        console.log(mess.messName);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error retrieving mess' });
+    }
+}
 export async function updateMess(req, res){
     try {
         const messId = req.params.id;

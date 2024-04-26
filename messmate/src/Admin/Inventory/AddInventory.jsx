@@ -76,7 +76,7 @@ const AddInventory = () => {
         <div className="container mx-auto flex flex-wrap items-center justify-between w-[50%]">
           <div className="lg:w-2/6 md:w-1/2 p-9 ml-8 bg-gray-100 rounded-lg  flex flex-[5] flex-col md:ml-auto w-[30rem] mt-10 md:mt-0">
             <h2 className="text-gray-900 text-3xl text-center font-medium title-font ">
-              Add AddInventory
+              Add Inventory
             </h2>
             <form onSubmit={addInventory}>
               <div className="relative mb-4">

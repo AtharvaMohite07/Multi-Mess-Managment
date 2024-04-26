@@ -23,11 +23,11 @@ function Alluser() {
   //     keepPreviousData: true
   // })
 
-  useEffect(() => {
+useEffect(() => {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get("/users/getusers", {
+        const response = await axios.get("/users/getusersforsuperadmin", {
           withCredentials: true,
         });
 

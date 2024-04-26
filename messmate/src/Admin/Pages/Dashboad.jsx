@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import useAuth from "../../Auth/useAuth";
+import axios from "../../Api/axios";
 import {
   AreaChart,
   Area,
@@ -17,9 +19,12 @@ import {
   Line,
 } from "recharts";
 
-import axios from "../../Api/axios";
+
 
 function Dashboad() {
+  const { auth } = useAuth();
+  const [messName, setMessName] = useState('');
+  const messId = auth.messId;
   const COLORS = ["#005298", "#004e40", "#ff0000"];
   const color = "#009d7f";
   const color1 = "#005298";
@@ -48,6 +53,23 @@ function Dashboad() {
 
     getData();
   }, []);
+
+  useEffect(() => {
+      const fetchMessName = async () => {
+        try {
+          const messIdInt = parseInt(messId, 10);
+          const response = await axios.get(`/messes/getmessbyid/${messIdInt}`, {
+            withCredentials: true, // If using cookies for authentication
+          });
+          setMessName(response.data);
+        } catch (error) {
+          console.error("Error fetching mess name:", error);
+          // Handle error, e.g., display an error message
+        }
+      };
+
+      fetchMessName();
+    }, [messId]);
   useEffect(() => {
     const getData = async (e) => {
       // if button enabled with JS hack
@@ -107,7 +129,7 @@ function Dashboad() {
       <div className="m-main">
         <div className="m-title">
           <span className="text-[2rem] text-[#009d7f] h2 border-b-2 border-black pb-2 text-center">
-            DASHBOARD
+            DASHBOARD for Admin of {messName}
           </span>
         </div>
         <div className="flex items-center gap-[1rem]">

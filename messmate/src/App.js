@@ -29,6 +29,8 @@ import SuperAdmin from "./SuperAdmin/SuperAdmin";
 import SuperadminDashboad from "./SuperAdmin/Pages/SuperadminDashboad";
 import Allmess from "./SuperAdmin/Pages/Allmess";
 import Addmess from "./SuperAdmin/Pages/Addmess";
+import Alluserforsuperadmin from "./SuperAdmin/Pages/Alluser";
+
 //import MessManagement from "./Superadmin/Pages/MessManagement";
 //import UserManagement from "./Superadmin/UserManagement";
 
@@ -102,7 +104,7 @@ function App() {
                   </Route>
                   <Route path="adduser" element={<Adduser />}>
                   </Route>
-                  <Route path="alluser" element={<Alluser />}>
+                  <Route path="alluser" element={<Alluserforsuperadmin />}>
                   </Route>
                 </Route>
               </Route>

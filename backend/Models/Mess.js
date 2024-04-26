@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 const messSchema = new mongoose.Schema({
     messId: {
         type: Number,
-        default: 1000,
+        default: 1000
     },
     messName: { type: String, required: true, unique: true },
     location: { type: String },
@@ -29,12 +29,10 @@ const messSchema = new mongoose.Schema({
 
 });
 
-messSchema.pre('save', function(next) {
+messSchema.pre('save', async function (next) {
     const mess = this;
-    if (!mess.messId) {
-        const { v4: uuidv4 } = require('uuid'); // Move require inside the pre-save hook
-        mess.messId = uuidv4();
-    }
+    const messCount = await Mess.countDocuments(); // Get count of existing messes
+    mess.messId = messCount + 1; // Assign messId as count + 1
     next();
 });
 

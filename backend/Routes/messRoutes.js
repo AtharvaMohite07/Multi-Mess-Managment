@@ -1,12 +1,21 @@
 import { Router } from "express";
 const messRouter = Router();
-import {createMess, getMesses, getMessByEmail,updateMess,deleteMess} from '../controller/messController.js';
+import {
+    createMess,
+    getMesses,
+    getMessByEmail,
+    updateMess,
+    deleteMess,
+    getMessById
+} from '../controller/messController.js';
 
 messRouter.post('/createmess', createMess);
 
 messRouter.get('/getmess', getMesses);
 
 messRouter.get('/getmessbyemail/:email',getMessByEmail);
+
+messRouter.get('/getmessbyid/:id',getMessById);
 
 messRouter.put('/update/:id', updateMess);
 

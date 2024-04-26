@@ -2,9 +2,23 @@ import User from "../Models/User.js";
 import bcrypt from 'bcrypt'
 import asyncHandler from 'express-async-handler'
 
+
+export const getUsersforsuperadmin = asyncHandler(async (req , res) => {
+    const users = await User.find({}, { password: 0, cpassword: 0 }).lean();
+
+    // If no users
+    if (!users?.length) {
+        return res.status(400).json({ message: 'No users found' });
+    }
+
+    res.json(users);
+});
+
+
 export const getAllUser = asyncHandler(async (req , res) => {
-    
-    const users = await User.find({},{password:0,cpassword:0}).lean()
+    const { id: messId } = req.params;
+    console.log(messId);
+    const users = await User.find({messId},{password:0,cpassword:0}).lean()
 
     // If no users 
     if (!users?.length) {

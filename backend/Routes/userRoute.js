@@ -2,13 +2,14 @@
 import { Router } from "express";
 
 // importing controller functions
-import { createNewUser, deleteUser, getAllUser, getOneUser, resetPassword, updateUser } from "../Controller/userController.js";
+import { createNewUser, deleteUser, getAllUser,getUsersforsuperadmin, getOneUser, resetPassword, updateUser } from "../Controller/userController.js";
 
 // create router application for taking and providing req and res
 const router = Router();
 
 // router queries
-router.get("/getusers" ,  getAllUser)
+router.get("/getusersforsuperadmin" ,  getUsersforsuperadmin)
+router.get("/getusers/:id" ,  getAllUser)
 router.get("/getuser/:email" ,  getOneUser)
 router.post("/signup" , createNewUser)
 router.patch("/update/:id" , updateUser)

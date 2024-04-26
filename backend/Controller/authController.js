@@ -62,6 +62,7 @@ export const login = asyncHandler(async (req, res) => {
         if (!matchPasswd) return res.status(401).json({ message: 'Unauthorized' });
 
         const userId = foundUser.userId;
+        const messId = foundUser.messId;
         const role = foundUser.role;
         const name = foundUser.name;
         const mobileno = foundUser.mobileno;
@@ -70,6 +71,7 @@ export const login = asyncHandler(async (req, res) => {
             {
                 "UserInfo": {
                     "name": foundUser.name,
+                    "messId": foundUser.messId,
                     "useremail": foundUser.email,
                     "role": role,
                     "mobileno": mobileno
@@ -89,7 +91,7 @@ export const login = asyncHandler(async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
-        res.json({ userId, name, email, mobileno, role, accessToken });
+        res.json({ userId, name, messId, email, mobileno, role, accessToken });
     }
 });
 
@@ -112,6 +114,7 @@ export const refresh = (req, res) => {
 
             const userId = foundUser.userId
             const role = foundUser.role
+            const messId = foundUser.messId
             const name = foundUser.name
             const email = foundUser.email
             const mobileno = foundUser.mobileno
@@ -120,6 +123,7 @@ export const refresh = (req, res) => {
                 {
                     "UserInfo": {
                         "useremail": email,
+                        "messId": messId,
                         "role": role
                     }
                 },
@@ -127,7 +131,7 @@ export const refresh = (req, res) => {
                 { expiresIn: '15m' }
             )
 
-            res.json({userId , name , email,mobileno, role , accessToken })
+            res.json({userId , name ,messId, email,mobileno, role , accessToken })
 
         })
     )

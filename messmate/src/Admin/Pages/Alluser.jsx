@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../Api/axios";
 import EditModal from "./EditModal";
+import useAuth from "../../Auth/useAuth";
 
 function Alluser() {
+  const { auth } = useAuth();
+  const messId = auth.messId;
   const [editModal, setEditModal] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [users, setUsers] = useState([]);
@@ -27,10 +30,9 @@ function Alluser() {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get("/users/getusers", {
+        const response = await axios.get(`/users/getusers/${messId}`, {
           withCredentials: true,
         });
-
         // console.log("Get All User", response.data);
         setUsers(response.data);
         console.log(JSON.stringify(response));
@@ -40,7 +42,7 @@ function Alluser() {
     };
 
     getData();
-  }, [editModal]);
+  }, [messId]);
 
   const handleDelete = async (email) => {
     try {
