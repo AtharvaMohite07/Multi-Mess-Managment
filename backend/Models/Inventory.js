@@ -9,6 +9,10 @@ const inventorySchema = new mongoose.Schema({
         // required : [true , 'Please enter user id'],
         default:0
     },
+    messId: {
+        type: Number,
+        required: true
+    },
     name : {
         type : String,
         required : [true , 'Please enter user id']

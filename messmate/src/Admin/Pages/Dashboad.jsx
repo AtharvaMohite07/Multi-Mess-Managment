@@ -39,7 +39,7 @@ function Dashboad() {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get("/stats/getDayMember", {
+        const response = await axios.get(`/stats/getDayMember/${messId}`, {
           withCredentials: true,
         });
 
@@ -74,7 +74,7 @@ function Dashboad() {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get("/stats/getPlanCount", {
+        const response = await axios.get(`/stats/getPlanCount/${messId}`, {
           withCredentials: true,
         });
 
@@ -92,7 +92,7 @@ function Dashboad() {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get("/stats/getMonthlyExpenses", {
+        const response = await axios.get(`/stats/getMonthlyExpenses/${messId}`, {
           withCredentials: true,
         });
 
@@ -110,7 +110,7 @@ function Dashboad() {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get("/stats/getWeekProfit", {
+        const response = await axios.get(`/stats/getWeekProfit/${messId}`, {
           withCredentials: true,
         });
 

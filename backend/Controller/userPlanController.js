@@ -46,7 +46,8 @@ export const getCurrentPlan = asyncHandler(async (req, res) => {
 
 export const addUserPlan = asyncHandler(async (req, res) => {
     try {
-        const { userId, planId, fees } = req.body;
+      const { id: messId } = req.params;
+      const { userId, planId, fees } = req.body;
 
         // Create the user plan
         const userPlan = new UserPlan({ userId, planId, fees });
@@ -57,6 +58,7 @@ export const addUserPlan = asyncHandler(async (req, res) => {
         for (const mealType of ['breakfast', 'lunch', 'dinner']) {
             let response = await qrCodeController.generateQRCode(
                 userId,
+                messId,
                 planId,
                 validityDate,
                 mealType

@@ -8,7 +8,11 @@ const planSchema = new mongoose.Schema({
     planId: {
         type: Number,
         default: 500,
-      },
+    },
+    messId: {
+        type: Number,
+        required: true
+    },
     plan_type:{
         type: String,
         enum: ['Daily' , 'Weekly' ,'Monthly'],

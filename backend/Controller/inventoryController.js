@@ -17,12 +17,12 @@ export const getAllUser = asyncHandler(async (req , res) => {
 
 export const getStore = asyncHandler(async (req , res) => {
     const storeType  = req.params.storeType
-
+    const { id: messId } = req.params;
     if (!storeType) {
         return res.status(400).json({ message: 'Store Type Required' })
     }
 
-    const store = await Inventory.find({storeType}).lean()
+    const store = await Inventory.find({storeType,messId}).lean()
 
     // If no users 
     if (!store) {
@@ -34,11 +34,12 @@ export const getStore = asyncHandler(async (req , res) => {
 
 export const getInventory = asyncHandler(async (req , res) => {
     const inventoryId = req.params.inventoryId
+    const { id: messId } = req.params;
     if (!inventoryId) {
         return res.status(400).json({ message: 'User ID Required' })
     }
 
-    const inventory = await Inventory.findOne({inventoryId}).lean()
+    const inventory = await Inventory.findOne({inventoryId,messId}).lean()
 
     // If no users 
     if (!inventory) {
@@ -50,11 +51,11 @@ export const getInventory = asyncHandler(async (req , res) => {
 
 
 export const addInventory = asyncHandler(async (req , res) => {
-
+    const { id: messId } = req.params;
     const {name , storeType , qty , single_price} = req.body
 
     // creating userObject
-    const inventoryObject = {name , storeType , qty , single_price }
+    const inventoryObject = {name , messId, storeType , qty , single_price }
 
     // Create and store new user 
     const inventory = await new Inventory(inventoryObject).save()
@@ -68,12 +69,13 @@ export const addInventory = asyncHandler(async (req , res) => {
 })
 
 export const updateInventory = asyncHandler(async (req, res) => {
+    const { id: messId } = req.params;
     var {name , storeType , qty , usedqty ,single_price , } = req.body
     const inventoryId = req.params.inventoryId;
     // console.log(inventoryId);
     // creating userObject
 
-    const inventory = await Inventory.findOne({inventoryId})
+    const inventory = await Inventory.findOne({inventoryId,messId})
     // console.log(inventory);
     if(!inventory)
     {
@@ -86,7 +88,7 @@ export const updateInventory = asyncHandler(async (req, res) => {
     const inventoryObject = {name , storeType , qty ,usedqty, remainqty, single_price , sub_total }
 
     // Create and store new user 
-    const inventoryUpdate = await Inventory.updateOne({inventoryId},inventoryObject)
+    const inventoryUpdate = await Inventory.updateOne({inventoryId,messId},inventoryObject)
     
 
     if (inventoryUpdate) { //created 
@@ -98,11 +100,12 @@ export const updateInventory = asyncHandler(async (req, res) => {
 
 
 export const deleteInventory = asyncHandler(async (req, res) => {
+    const { id: messId } = req.params;
     const inventoryId = req.params.inventoryId;
     console.log(inventoryId);
     // creating userObject
 
-    const inventory = await Inventory.findOne({inventoryId})
+    const inventory = await Inventory.findOne({inventoryId,messId})
     // console.log(inventory);
     if(!inventory)
     {
@@ -110,7 +113,7 @@ export const deleteInventory = asyncHandler(async (req, res) => {
     }
 
     // Create and store new user 
-    const inventoryDelete = await Inventory.deleteOne({inventoryId})
+    const inventoryDelete = await Inventory.deleteOne({inventoryId,messId})
     
 
     if (inventoryDelete) { //created 

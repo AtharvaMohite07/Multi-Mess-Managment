@@ -7,6 +7,7 @@ import Inventory from "../Models/Inventory.js";
 
 export const getPlanCount = asyncHandler(async (req , res) => {
 
+  const { id: messId } = req.params;
   const today_date = moment().utcOffset("+05:30").startOf('month').startOf('week').toDate()
   const end_date1 = moment().utcOffset("+05:30").endOf('month').endOf('week').toDate()
   // console.log(today_date);
@@ -15,6 +16,7 @@ export const getPlanCount = asyncHandler(async (req , res) => {
     const user = await UserPlan.aggregate(
         [{
             $match : {
+                "messId": messId,
                 "start_date":{$gte:today_date , $lte:end_date1},
             }
         },
@@ -40,11 +42,13 @@ export const getPlanCount = asyncHandler(async (req , res) => {
 })
 
 export const getDayMemebr = asyncHandler(async (req , res) => {
+    const { id: messId } = req.params;
     const today_date = moment().utcOffset("+05:30").startOf('month').startOf('week').toDate()
     const end_date1 = moment().utcOffset("+05:30").endOf('month').endOf('week').toDate()
     const users = await DailyEntry.aggregate([
         {
             $match: {
+                "messId": messId,
                 "attendance": {
                   "$elemMatch": {
                     "date": 
@@ -93,6 +97,7 @@ export const getDayMemebr = asyncHandler(async (req , res) => {
 })
 
 export const getWeekProfit = asyncHandler(async (req , res) => {
+    const { id: messId } = req.params;
     const today_date = moment().utcOffset("+05:30").startOf('week').toDate()
     const end_date1 = moment().utcOffset("+05:30").endOf('week').toDate()
     // console.log(today_date);
@@ -100,7 +105,9 @@ export const getWeekProfit = asyncHandler(async (req , res) => {
 
     const user = await UserPlan.aggregate(
         [{
+
             $match : {
+                "messId": messId,
                 "start_date":{$gte:today_date , $lte:end_date1},
                 // "end_date":{$gte:today_date},
             }
@@ -135,6 +142,7 @@ export const getWeekProfit = asyncHandler(async (req , res) => {
         res.json(groupedPeople)
 })
 export const getMonthlyExpenses = asyncHandler(async (req , res) => {
+  const { id: messId } = req.params;
   const today_date = moment().utcOffset("+05:30").startOf('month').startOf('week').toDate()
   const end_date1 = moment().utcOffset("+05:30").endOf('month').endOf('week').toDate()
 
@@ -142,6 +150,7 @@ export const getMonthlyExpenses = asyncHandler(async (req , res) => {
       {
           $match:
           {
+            "messId": messId,
             "date" : {$gte : today_date ,$lte : end_date1}
           }
       },

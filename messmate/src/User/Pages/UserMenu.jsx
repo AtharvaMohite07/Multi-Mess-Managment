@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../Api/axios";
 import Card from "./Card";
+import useAuth from "../../Auth/useAuth";
 import userMenu from "../../Svg/UserMenu.png";
 const UserMenu = () => {
   const [ day, setDay ] = useState("Monday");
   const [ isMenuAvlbl, setIsMenuAvlbl ] = useState(false);
+
+  const { auth } = useAuth();
+  const messId = auth.messId;
 
   const [ menuB, setMenuB ] = useState(null);
   const [ menuL, setMenuL ] = useState(null);
@@ -16,7 +20,7 @@ const UserMenu = () => {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get(`/menu/getMenu/${day}`, {
+        const response = await axios.get(`/menu/getMenu/${day}/${messId}`, {
           withCredentials: true,
         });
 
@@ -45,7 +49,7 @@ const UserMenu = () => {
     };
 
     getData();
-  }, [ day ]);
+  }, [ day,messId ]);
 
   return (
     <div className="flex flex-col min-h-[75vh] justify-between px-4 mt-2">

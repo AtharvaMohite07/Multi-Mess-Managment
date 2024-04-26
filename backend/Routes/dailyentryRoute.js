@@ -3,7 +3,7 @@ import {getUserEntryDetail, updateDailyEntry } from '../Controller/dailyentryCon
 const dailyentryRouter = Router()
 
 dailyentryRouter.patch("/updateentry" , updateDailyEntry)
-dailyentryRouter.get("/getuserentry/:userId" , getUserEntryDetail)
+dailyentryRouter.get("/getuserentry/:userId/:id" , getUserEntryDetail)
 // dailyentryRouter.get("/deleteentry" , deleteUserEntry)
 
 

@@ -4,6 +4,7 @@ import axios from "../../Api/axios";
 import Alert from "../../Components/Alert";
 // import EditModal from "../Pages/EditModal";
 import EditModal from "./EditModal";
+import useAuth from "../../Auth/useAuth";
 
 function InventoryExpense(props) {
   const [alert, setalert] = useState({
@@ -11,6 +12,9 @@ function InventoryExpense(props) {
     message: "",
     type: "bg-[red]",
   });
+  const { auth } = useAuth();
+  const messId = auth.messId;
+
   const [editModal, setEditModal] = useState(false);
   const [inventoryId, setInventoryId] = useState("");
   const [inventory, setInventory] = useState([]);
@@ -48,7 +52,7 @@ function InventoryExpense(props) {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get(`stats/getMonthlyExpenses`, {
+        const response = await axios.get(`stats/getMonthlyExpenses/${messId}`, {
           withCredentials: true,
         });
 

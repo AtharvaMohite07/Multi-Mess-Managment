@@ -8,6 +8,10 @@ const menuSchema = new mongoose.Schema({
         type: Number,
         default: 100,
       },
+    messId: {
+        type: Number,
+        required: true
+    },
     menu_day:{
         type: String,
         enum: ['Sunday' , 'Monday' ,'Tuesday','Wednesday','Thursday','Friday','Saturday'],

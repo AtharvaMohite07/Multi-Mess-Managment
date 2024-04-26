@@ -8,10 +8,10 @@ import { getDayMemebr, getMonthlyExpenses, getPlanCount, getWeekProfit } from ".
 const statisticsRoute = Router();
 
 // router queries
-statisticsRoute.get("/getPlanCount" ,  getPlanCount)
-statisticsRoute.get("/getDayMember" ,  getDayMemebr)
-statisticsRoute.get("/getWeekProfit" ,  getWeekProfit)
-statisticsRoute.get("/getMonthlyExpenses" ,  getMonthlyExpenses)
+statisticsRoute.get("/getPlanCount/:id" ,  getPlanCount)
+statisticsRoute.get("/getDayMember/:id" ,  getDayMemebr)
+statisticsRoute.get("/getWeekProfit/:id" ,  getWeekProfit)
+statisticsRoute.get("/getMonthlyExpenses/:id" ,  getMonthlyExpenses)
 
 // exporting router application
 export default statisticsRoute;

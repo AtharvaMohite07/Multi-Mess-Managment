@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "../../Api/axios";
 import Alert from "../../Components/Alert";
+import useAuth from "../../Auth/useAuth";
 
 const AddInventory = () => {
   const [alert, setalert] = useState({
@@ -9,6 +10,9 @@ const AddInventory = () => {
     message: "",
     type: "bg-[red]",
   });
+
+  const { auth } = useAuth();
+  const messId = auth.messId;
 
   const [name, setName] = useState(null);
   const [storeType, setStoreType] = useState(null);
@@ -34,7 +38,7 @@ const AddInventory = () => {
     }
     try {
       const response = await axios.post(
-        "/inventory/addinventory/",
+        `/inventory/addinventory/${messId}`,
         JSON.stringify({ name, storeType, qty, single_price }),
         {
           headers: { "Content-Type": "application/json" },

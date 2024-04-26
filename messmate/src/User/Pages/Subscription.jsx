@@ -10,6 +10,7 @@ const Subscription = () => {
   const [currentPlan, setCurrentPlan] = useState(null);
   const [isCurrentPlan, setIsCurrentPlan] = useState(false);
   const { auth } = useAuth();
+  const messId = auth.messId;
   const [plan_Id, setplan_Id] = useState(null);
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const Subscription = () => {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get(`/plan/getAllPlan`, {
+        const response = await axios.get(`/plan/getAllPlan/${messId}`, {
           withCredentials: true,
         });
 

@@ -4,6 +4,7 @@ import axios from "../../Api/axios";
 import Alert from "../../Components/Alert";
 // import EditModal from "../Pages/EditModal";
 import EditModal from "./EditModal";
+import useAuth from "../../Auth/useAuth";
 
 function StoreA(props) {
   const [alert, setalert] = useState({
@@ -11,6 +12,10 @@ function StoreA(props) {
     message: "",
     type: "bg-[red]",
   });
+
+  const { auth } = useAuth();
+  const messId = auth.messId;
+
   const [editModal, setEditModal] = useState(false);
   const [inventoryId, setInventoryId] = useState("");
   const [inventory, setInventory] = useState([]);
@@ -24,7 +29,7 @@ function StoreA(props) {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get(`inventory/getstore/${props.store}`, {
+        const response = await axios.get(`inventory/getstore/${props.store}/${messId}`, {
           withCredentials: true,
         });
 
@@ -43,7 +48,7 @@ function StoreA(props) {
     try {
       // console.log(email);
       const response = await axios.delete(
-        `inventory/deleteinventory/${inventoryId}`,
+        `inventory/deleteinventory/${inventoryId}/${messId}`,
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,

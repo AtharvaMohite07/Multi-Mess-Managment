@@ -9,11 +9,11 @@ const inventoryRoute = Router();
 
 // inventoryRoute queries
 // inventoryRoute.get("/getusers" ,  getAllUser)
-inventoryRoute.get("/getstore/:storeType" ,  getStore)
-inventoryRoute.get("/getinventory/:inventoryId" ,  getInventory)
-inventoryRoute.post("/addinventory" , addInventory)
-inventoryRoute.patch("/updateinventory/:inventoryId" , updateInventory)
-inventoryRoute.delete("/deleteinventory/:inventoryId" , deleteInventory)
+inventoryRoute.get("/getstore/:storeType/:id" ,  getStore)
+inventoryRoute.get("/getinventory/:inventoryId/:id" ,  getInventory)
+inventoryRoute.post("/addinventory/:id" , addInventory)
+inventoryRoute.patch("/updateinventory/:inventoryId/:id" , updateInventory)
+inventoryRoute.delete("/deleteinventory/:inventoryId/:id" , deleteInventory)
 // inventoryRoute.patch("/resetpasswd" , resetPassword)
 // inventoryRoute.get("/verify" ,  d)
 

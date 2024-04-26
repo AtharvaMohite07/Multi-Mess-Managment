@@ -11,6 +11,7 @@ const Attendance = () => {
   const [currPlan, setCurrPlan] = useState(null);
 
   const { auth } = useAuth();
+  const messId = auth.messId;
   dayjs.extend(isBetween);
   // variables
 
@@ -81,7 +82,7 @@ const Attendance = () => {
       try {
         const userId = auth.userId;
         // const userId = 2007;
-        const response = await axios.get(`/dailyentry/getuserentry/${userId}`, {
+        const response = await axios.get(`/dailyentry/getuserentry/${userId}/${messId}`, {
           withCredentials: true,
         });
 

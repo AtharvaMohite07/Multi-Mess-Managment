@@ -4,6 +4,7 @@ import asyncHandler from 'express-async-handler'
 
 
 export const getMenu = asyncHandler(async (req , res) => {
+    const { id: messId } = req.params;
     const menu_day = req.params.menu_day
     // console.log(menu_day);
     // Confirm data
@@ -11,7 +12,7 @@ export const getMenu = asyncHandler(async (req , res) => {
         return res.status(400).json({ message: 'Menu Day Require' })
     }
 
-    const menu = await Menu.find({menu_day}).lean()
+    const menu = await Menu.find({menu_day,messId}).lean()
     // console.log(menu);
     // If no users 
     if (!menu) {
@@ -23,7 +24,7 @@ export const getMenu = asyncHandler(async (req , res) => {
 
 
 export const addMenu = asyncHandler(async (req , res) => {
-
+    const { id: messId } = req.params;
     // read data from req body
     const {menu_day , menu_breakfast , menu_lunch , menu_dinner , special_menu} = req.body
     if (!menu_day) {
@@ -32,19 +33,19 @@ export const addMenu = asyncHandler(async (req , res) => {
 
     if(menu_breakfast.length===0 && menu_lunch.length===0 && menu_dinner.length===0)
     {
-        const result = await Menu.deleteOne({menu_day})
+        const result = await Menu.deleteOne({menu_day,messId})
         const reply = `Menu of ${menu_day} deleted`
         return res.json({message:"Menu deleted successfully"})
     }
     // duplicate entry than update menu
     const duplicate = await Menu.findOne({menu_day}).lean().exec()
     if (duplicate) {
-        const updatedPlan = await Menu.updateOne({menu_day} , {menu_breakfast,menu_lunch , menu_dinner, special_menu})
+        const updatedPlan = await Menu.updateOne({menu_day,messId} , {menu_breakfast,menu_lunch , menu_dinner, special_menu})
         return res.json({ message: `${menu_day} plan updated` })
     }
 
     // creating userObject
-    const menuObject = {menu_day , menu_breakfast , menu_lunch , menu_dinner , special_menu}
+    const menuObject = {menu_day , messId, menu_breakfast , menu_lunch , menu_dinner , special_menu}
 
     // Create and store new user 
     const menu = await new Menu(menuObject).save()
@@ -58,10 +59,11 @@ export const addMenu = asyncHandler(async (req , res) => {
 })
 
 export const updateMenu = asyncHandler(async (req, res) => {
+    const { id: messId } = req.params;
     const {menu_day , menu_breakfast , menu_lunch , menu_dinner , special_menu } = req.body
 
     // Does the plan exist to update?
-    const menu = await Menu.find({menu_day}).exec()
+    const menu = await Menu.find({menu_day,messId}).exec()
     console.log(menu);
     if (!menu) {
         return res.status(400).json({ message: 'Menu not found' })
@@ -74,6 +76,7 @@ export const updateMenu = asyncHandler(async (req, res) => {
 
 export const deleteMenu = asyncHandler(async (req, res) => {
     const { menu_day } = req.body
+    const { id: messId } = req.params;
 
     // Confirm data
     if (!menu_day) {
@@ -81,13 +84,13 @@ export const deleteMenu = asyncHandler(async (req, res) => {
     }
 
     // Does the user exist to delete?
-    const menu = await Menu.find({menu_day}).exec()
+    const menu = await Menu.find({menu_day,messId}).exec()
 
     if (!menu) {
         return res.status(400).json({ message: 'Menu not found' })
     }
 
-    const result = await Menu.deleteOne({plan_type})
+    const result = await Menu.deleteOne({plan_type, messId})
 
     const reply = `Menu of ${menu_day} deleted`
 

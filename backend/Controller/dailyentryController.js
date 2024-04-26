@@ -7,13 +7,14 @@ import moment from 'moment';
 
 export const getUserEntryDetail = asyncHandler(async (req , res) => {
     const userId = req.params.userId
+    const { id: messId } = req.params;
 
     if(!userId)
     {
         return res.status(400).json({ message: 'User ID Required' })
     }
 
-    const entry = await DailyEntry.findOne({"userId":userId})
+    const entry = await DailyEntry.findOne({"userId":userId,"messId":messId})
     // console.log(entry.attendance[0].date);
     const start_end = entry.attendance[0].date.getDate()
     // console.log(entry.attendance[entry.attendance.length-1].date);
@@ -25,6 +26,7 @@ export const getUserEntryDetail = asyncHandler(async (req , res) => {
 })
 export const updateDailyEntry = asyncHandler(async (req, res) => {
     const { userId, verifyThing, planId } = req.body;
+    const { id: messId } = req.params;
 
     if (!verifyThing) {
         return res.status(400).json({ message: 'Select type required' });
@@ -37,7 +39,7 @@ export const updateDailyEntry = asyncHandler(async (req, res) => {
 
         // If the user is not found, create a new entry
         if (!user) {
-            user = await DailyEntry.create({ userId, attendance: [] });
+            user = await DailyEntry.create({ userId,messId, attendance: [] });
         }
         const momentDate = moment().utcOffset('+05:30').startOf('day');
         const date = new Date();

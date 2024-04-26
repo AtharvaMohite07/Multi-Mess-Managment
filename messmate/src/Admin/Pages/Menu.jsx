@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "../../Api/axios";
 import Alert from "../../Components/Alert";
 import MultiSelect from "../Components/MultiSelect";
+import useAuth from "../../Auth/useAuth";
 import subscribe from "../../Svg/subscription.png";
 
 const Menu = () => {
@@ -11,6 +12,8 @@ const Menu = () => {
     message: "",
     type: "bg-[red]",
   });
+  const { auth } = useAuth();
+  const messId = auth.messId;
   const [isSetMenu, setIsSetMenu] = useState(true);
   const [day, setDay] = useState("");
 
@@ -29,7 +32,7 @@ const Menu = () => {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get(`/menu/getMenu/${day}`, {
+        const response = await axios.get(`/menu/getMenu/${day},${messId}`, {
           withCredentials: true,
         });
 
@@ -56,7 +59,7 @@ const Menu = () => {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get(`/plan/getPlan/${planType}`, {
+        const response = await axios.get(`/plan/getPlan/${planType}/${messId}`, {
           withCredentials: true,
         });
 
@@ -87,7 +90,7 @@ const Menu = () => {
     // }
     try {
       const response = await axios.post(
-        "/menu/addMenu",
+        `/menu/addMenu/${messId}`,
         JSON.stringify({
           menu_day: day,
           menu_breakfast: menuB,
@@ -149,7 +152,7 @@ const Menu = () => {
     }
     try {
       const response = await axios.post(
-        "/plan/addPlan",
+        `/plan/addPlan/${messId}`,
         JSON.stringify({
           plan_type: planType,
           plan_desc: desc,

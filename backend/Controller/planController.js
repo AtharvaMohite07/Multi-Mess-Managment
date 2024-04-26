@@ -4,15 +4,17 @@ import asyncHandler from 'express-async-handler'
 
 
 export const getPlan = asyncHandler(async (req , res) => {
+    const { id: messId } = req.params;
     const plan_type = req.params.plan_type
     // console.log(plan_type);
+
 
     // Confirm data
     if (!plan_type) {
         return res.status(400).json({ message: 'Plan Type Require' })
     }
 
-    const plan = await Plan.find({plan_type}).lean()
+    const plan = await Plan.find({plan_type,  messId}).lean()
 
     // If no users 
     if (!plan) {
@@ -24,7 +26,8 @@ export const getPlan = asyncHandler(async (req , res) => {
 
 
 export const getAllPlan = asyncHandler(async (req , res)=> {
-    const plans = await Plan.find().lean()
+    const { id: messId } = req.params;
+    const plans = await Plan.find({ messId }).lean();
 
     // If no users 
     if (!plans?.length) {
@@ -37,18 +40,19 @@ export const getAllPlan = asyncHandler(async (req , res)=> {
 
 export const addPlan = asyncHandler(async (req , res) => {
 
+    const { id: messId } = req.params;
     // read data from req body
     const {plan_type , plan_desc , plan_price} = req.body
 
     // duplicate entry
-    const duplicate = await Plan.findOne({plan_type}).lean().exec()
+    const duplicate = await Plan.findOne({plan_type,messId}).lean().exec()
     if (duplicate) {
         const updatedPlan = await Plan.updateOne({plan_type} , {plan_desc,plan_price})
         return res.json({ message: `${plan_type} plan updated` })
     }
 
     // creating userObject
-    const planObject = {plan_type , plan_desc , plan_price}
+    const planObject = {plan_type , plan_desc , plan_price, messId}
 
     // Create and store new user 
     const plan = await new Plan(planObject).save()
@@ -82,14 +86,14 @@ export const updatePlan = asyncHandler(async (req, res) => {
 
 export const deletePlan = asyncHandler(async (req, res) => {
     const { plan_type } = req.body
-
+    const { id: messId } = req.params;
     // Confirm data
     if (!plan_type) {
         return res.status(400).json({ message: 'Plan Type Required' })
     }
 
     // Does the user exist to delete?
-    const plan = await Plan.find({plan_type}).exec()
+    const plan = await Plan.findOne({ plan_type, messId }).exec();
 
     if (!plan) {
         return res.status(400).json({ message: 'Plan not found' })

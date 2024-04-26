@@ -7,6 +7,10 @@ const entrySchema = new mongoose.Schema({
         type : Number,
         required : [true , 'Please enter user id']
     },
+    messId: {
+        type: Number,
+        required: true
+    },
     attendance : [
         {
             date : {

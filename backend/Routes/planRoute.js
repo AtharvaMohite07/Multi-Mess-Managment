@@ -8,11 +8,11 @@ import { addPlan, deletePlan, getAllPlan, getPlan, updatePlan } from "../Control
 const planRoute = Router();
 
 // router queries
-planRoute.get("/getPlan/:plan_type" ,  getPlan)
-planRoute.get("/getAllPlan" ,  getAllPlan)
-planRoute.post("/addPlan" , addPlan)
+planRoute.get("/getPlan/:plan_type/:id" ,  getPlan)
+planRoute.get("/getAllPlan/:id" ,  getAllPlan)
+planRoute.post("/addPlan/:id" , addPlan)
 planRoute.patch("/updatePlan" , updatePlan)
-planRoute.delete("/deletePlan" , deletePlan)
+planRoute.delete("/deletePlan/:id" , deletePlan)
 
 // exporting router application
 export default planRoute;

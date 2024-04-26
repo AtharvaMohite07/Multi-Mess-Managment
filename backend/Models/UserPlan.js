@@ -8,6 +8,10 @@ const userplanSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Please enter user id"],
     },
+    messId: {
+      type: Number,
+      required: true
+    },
     subId: {
       type: Number,
       // required : [true , 'Please enter user id']

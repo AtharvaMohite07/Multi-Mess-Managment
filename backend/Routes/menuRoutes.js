@@ -8,10 +8,10 @@ import { addMenu, deleteMenu, getMenu, updateMenu } from "../Controller/menuCont
 const menuRoute = Router();
 
 // router queries
-menuRoute.get("/getMenu/:menu_day" ,  getMenu)
-menuRoute.post("/addMenu" , addMenu)
-menuRoute.patch("/updateMenu" , updateMenu)
-menuRoute.delete("/deleteMenu" , deleteMenu)
+menuRoute.get("/getMenu/:menu_day/:id" ,  getMenu)
+menuRoute.post("/addMenu/:id" , addMenu)
+menuRoute.patch("/updateMenu/:id" , updateMenu)
+menuRoute.delete("/deleteMenu/:id" , deleteMenu)
 
 // exporting router application
 export default menuRoute;

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../Api/axios";
 import Alert from "../../Components/Alert";
 import closeBtnpic from "../../Svg/close.svg";
+import useAuth from "../../Auth/useAuth";
 
 function EditModal(props) {
   // const { setAuth } = useAuth();
@@ -11,6 +12,9 @@ function EditModal(props) {
     message: "",
     type: "bg-[red]",
   });
+
+  const { auth } = useAuth();
+  const messId = auth.messId;
 
   const [name, setName] = useState(null);
   const [storeType, setStoreType] = useState(null);
@@ -24,7 +28,7 @@ function EditModal(props) {
       //   console.log("Inside effect", userEmail);
       try {
         const response = await axios.get(
-          `/inventory/getinventory/${inventoryId}`,
+          `/inventory/getinventory/${inventoryId}/${messId}`,
           {
             withCredentials: true,
           }

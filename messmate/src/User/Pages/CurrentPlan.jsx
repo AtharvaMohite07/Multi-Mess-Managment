@@ -6,6 +6,7 @@ import useAuth from "../../Auth/useAuth";
 const CurrentPlan = ({ planDetail, plan_id }) => {
   const [plan, setPlan] = useState("");
   const { auth } = useAuth();
+  const messId = auth.messId;
 
   useEffect(() => {
     const getData = async (e) => {
@@ -22,11 +23,10 @@ const CurrentPlan = ({ planDetail, plan_id }) => {
           plan_type = "Monthly";
         }
 
-        const response = await axios.get(`/plan/getPlan/${plan_type}`, {
-          withCredentials: true,
+        const response = await axios.get(`/plan/getPlan/${plan_type}/${messId}`, {
+          withCredentials: true
         });
 
-        // console.log(response.data.plan[0]);
         setPlan(response.data.plan[0]);
         console.log("plan", plan);
         // alert(response.data.message);

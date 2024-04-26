@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import useAuth from "../../Auth/useAuth";
 import axios from "../../Api/axios";
 
 const AllPlanTable = () => {
   const [users, setUsers] = useState([]);
+  const { auth } = useAuth();
+  const messId = auth.messId;
   const [alert, setAlert] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
@@ -15,7 +18,7 @@ const AllPlanTable = () => {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get("/userplan/getUserPlan", {
+        const response = await axios.get(`/userplan/getUserPlan/${messId}`, {
           withCredentials: true,
         });
 
