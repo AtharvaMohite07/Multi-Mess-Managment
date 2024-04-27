@@ -10,6 +10,7 @@ import inventoryRoute from './Routes/inventoryRoutes.js';
 import messRouter from './Routes/messRoutes.js';
 import qrcodeRouter from './Routes/QRCodeRoutes.js';
 import superAdminRoutes from './Routes/superadminRoutes.js';
+import statisticsforsuperAdminRoute from './Routes/statisticsforsuperAdminRoute.js';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -46,6 +47,7 @@ app.use("/inventory", inventoryRoute);
 app.use("/qrcodes", qrcodeRouter);
 app.use('/messes', messRouter);
 app.use('/superadmins', superAdminRoutes);
+app.use('/StatsforsuperAdmin', statisticsforsuperAdminRoute);
 
 // get requests
 

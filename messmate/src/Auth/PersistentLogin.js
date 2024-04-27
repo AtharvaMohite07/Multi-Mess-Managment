@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import useAuth from "./useAuth";
 import useRefresh from "./useRefresh";
-import refreshSuperAdmin from "./useRefreshSuperAdmin";
+import useRefreshSuperAdmin from "./useRefreshSuperAdmin";
 
 const PersistentLogin = () => {
     const refresh = useRefresh();
+    const refreshSuperAdmin = useRefreshSuperAdmin();
     const { auth } = useAuth();
     const [refreshing, setRefreshing] = useState(true);
 
@@ -24,12 +25,12 @@ const PersistentLogin = () => {
             }
         };
 
-        if (!auth.accessToken) {
+        if (!auth.accessToken  || auth.role === undefined) {
             verifyCookie();
         } else {
             setRefreshing(false);
         }
-    }, [auth.accessToken, auth.role, refresh]); // Add dependencies to the array
+    }, [auth.accessToken, auth.role, refresh,refreshSuperAdmin]); // Add dependencies to the array
 
     return (
         refreshing ? <p>Loading ....</p> : <Outlet />
