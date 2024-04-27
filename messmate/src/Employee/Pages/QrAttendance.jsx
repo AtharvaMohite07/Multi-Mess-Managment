@@ -1,58 +1,70 @@
-import React, { useEffect, useRef, useState } from "react";
-import QrReader from "react-qr-reader";
+import React, { useState } from "react";
 import axios from "../../Api/axios";
+import QrReader from "react-qr-scanner";
 import Alert from "../../Components/Alert";
-import Card from "./Card";
-// import QRCode from "qrcode";
-// import QrReader from "react-qr-reader";
+import useAuth from "../../Auth/useAuth";
 
 const QrAttendance = () => {
-  const [data, setData] = useState([]);
-  const [possible, setPossible] = useState(false);
-  const [possible1, setPossible1] = useState(false);
-  const [possible2, setPossible2] = useState(false);
-  const [type, setType] = useState(null);
-  const [isCard, setIsCard] = useState(false);
-  const [alert, setalert] = useState({
+  const [alert, setAlert] = useState({
     mode: false,
     message: "",
     type: "bg-[red]",
   });
 
-  const [scanResultWebCam, setScanResultWebCam] = useState("");
+  const [userId, setUserId] = useState(null);
+  const [planId, setPlanId] = useState(null);
+  const [type, setType] = useState(null);
+  const { auth } = useAuth();
+  const messId = auth.messId;
+  const [cameraError, setCameraError] = useState(false);
 
   const handleErrorWebCam = (error) => {
-    console.log(error);
+    console.error(error);
+    setCameraError(true); // Set camera error flag to true
   };
-  const handleScanWebCam = (result) => {
-    setTimeout(() => {
+
+  const handleScanWebCam = async (result) => {
+    try {
       if (result) {
-        var result1 = JSON.parse(result);
-        if (type === "breakfast" && result1.isTodayBreakfast) {
-          console.log(type === "breakfast" && result1.isTodayBreakfast);
-          setPossible(true);
+        // Process the scanned QR code text
+        console.log("Scanned Code:", result);
+
+        // Extract the text property from the result object
+        const qrCodeText = result.text;
+
+        // Make an axios POST request to validate the scanned QR code
+        const response = await axios.post(`/qrcodes/validate`, { code: qrCodeText });
+        console.log(response.data.message); // Log the validation message
+
+        // Handle UI updates based on the response if needed
+        if (response.data.success) {
+          setAlert({
+            mode: true,
+            message: response.data.message ,
+            type: "bg-[green]",
+          });
+          setUserId(response.data.userId);
+          setPlanId(response.data.planId);
+          setType(response.data.type);
+          await takeAttendance();
+        } else if (response.data.alreadyUsed) {
+          // Handle already used scenario
+          setAlert({
+            mode: true,
+            message: "QR code already used. Attendance already marked.",
+            type: "bg-[orange]", // Or any appropriate color for already used
+          });
         } else {
-          setPossible(false);
+          setAlert({
+            mode: true,
+            message: response.data.message || "QR code validation failed.",
+          });
         }
-        if (type === "lunch" && result1.isTodayLunch) {
-          setPossible1(true);
-        } else {
-          setPossible1(false);
-        }
-        if (type === "dinner" && result1.isTodayDinner) {
-          setPossible2(true);
-        } else {
-          setPossible2(false);
-        }
-        setScanResultWebCam(result1);
-        setIsCard(true);
-        // const userId = scanResultWebCam.userId;
-        console.log(scanResultWebCam.userId);
-        // console.log(JSON.stringify(scanResultWebCam));
-        try {
-        } catch (error) {}
       }
-    }, 5);
+    } catch (error) {
+      console.error('Error validating QR code:', error);
+      // Handle error scenarios
+    }
   };
 
   const takeAttendance = async (userId, planId) => {
@@ -61,17 +73,17 @@ const QrAttendance = () => {
       const verifyThing = type;
       console.log(verifyThing, userId, planId);
       const response = await axios.patch(
-        `dailyentry/updateentry`,
-        JSON.stringify({ userId, verifyThing, planId }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
+          `dailyentry/updateentry`,
+          JSON.stringify({ userId, verifyThing, planId , messId}),
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
       );
       console.log("See daily entry");
       console.log(response);
       // alert(response.data.message);
-      setalert({
+      setAlert({
         mode: true,
         message: response.data.message,
         type: "bg-[green]",
@@ -80,8 +92,8 @@ const QrAttendance = () => {
       if (!error?.response) {
         console.log("No Server Response");
       }
-      // else if(error.response?.status === 400)
-      // {
+          // else if(error.response?.status === 400)
+          // {
 
       // }
       else {
@@ -89,7 +101,7 @@ const QrAttendance = () => {
         console.log(error.message);
         console.log(error.response.data.message);
         const message = error.response.data.message;
-        setalert({
+        setAlert({
           mode: true,
           message: message,
           type: "bg-[red]",
@@ -98,77 +110,26 @@ const QrAttendance = () => {
     }
   };
 
+
+
   return (
-    <div>
-      {alert.mode ? <Alert alert={alert} setalert={setalert} /> : ""}
-
-      <div className="flex items-center justify-center">
-        <div className="flex-[1] flex flex-col  items-center justify-center h-[40rem]">
-          <div className="dayselect flex flex-col">
-            <select
-              id="day"
-              name="menu_day"
-              class="bg-gray-50 w-[20rem] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-            >
-              {}
-              <option selected>Select type</option>
-              <option value="breakfast">BreakFast</option>
-              <option value="lunch">Lunch</option>
-              <option value="dinner">Dinner</option>
-            </select>
-          </div>
-          {isCard ? (
-            <div className="lg:w-4/5 mx-auto flex flex-wrap W-[20rem]  p-[2rem]">
-              {scanResultWebCam.isTodayBreakfast && possible ? (
-                <Card
-                  scanResultWebCam={scanResultWebCam}
-                  takeAttendance={takeAttendance}
-                  info={"Breakfast"}
-                />
-              ) : scanResultWebCam.isTodayLunch && possible1 ? (
-                <Card
-                  scanResultWebCam={scanResultWebCam}
-                  takeAttendance={takeAttendance}
-                  info={"Lunch"}
-                />
-              ) : scanResultWebCam.isTodayDinner && possible2 ? (
-                <Card
-                  scanResultWebCam={scanResultWebCam}
-                  takeAttendance={takeAttendance}
-                  info={"Dinner"}
-                />
-              ) : (
-                "You have no plan for today"
-              )}
+      <div>
+        {alert.mode && <Alert alert={alert} setAlert={setAlert} />}
+        {cameraError && <div className="flex items-center justify-center h-screen">No camera access</div>}
+        {!cameraError && (
+            <div className="flex items-center justify-center h-screen">
+              <QrReader
+                  delay={300}
+                  onError={handleErrorWebCam}
+                  onScan={handleScanWebCam}
+                  style={{ width: "100%", height: "100%" }}
+                  facingMode={"environment"} // Use the back camera if available
+                  legacyMode={true} // Use the legacy mode to improve compatibility
+                  resolution={1200} // Higher resolution for better scanability (adjust as needed)
+              />
             </div>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="flex-[1] w-[500px]">
-          <h3 className="h2">Qr Code Scan by Web Cam</h3>
-
-          <QrReader
-            delay={300}
-            style={{ width: "400px", heigth: "400px" }}
-            onError={handleErrorWebCam}
-            onScan={handleScanWebCam}
-            // onScan={(() => setTimeout(() => handleScanWebCam()), 500)}
-            cameraContainerStyle={{
-              width: 275,
-              borderWidth: 1,
-              borderColor: "white",
-              alignSelf: "center",
-            }}
-            cameraStyle={{ width: "97%", alignSelf: "center" }}
-            // legacyMode
-          />
-          {/* <h3>Scanned By WebCam Code: {scanResultWebCam}</h3> */}
-        </div>
+        )}
       </div>
-    </div>
   );
 };
 

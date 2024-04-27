@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 
 const qrCodeSchema = new mongoose.Schema({
     userId: { type: Number, required: true },
+    messId: { type: Number, required: true },
     planId: { type: Number, required: true },
     code: { type: String, required: true, unique: true }, 
     usageCount: { type: Number, default: 0 }, 

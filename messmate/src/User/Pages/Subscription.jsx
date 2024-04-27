@@ -67,7 +67,7 @@ const Subscription = () => {
 
     try {
       const response = await axios.post(
-        "/userplan/addUserPlan",
+        `/userplan/addUserPlan/${messId}`,
         JSON.stringify({ userId, planId, fees }),
         {
           headers: { "Content-Type": "application/json" },

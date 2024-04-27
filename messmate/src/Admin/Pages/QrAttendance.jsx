@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "../../Api/axios";
 import QrReader from "react-qr-scanner";
 import Alert from "../../Components/Alert";
+import useAuth from "../../Auth/useAuth";
 
 const QrAttendance = () => {
     const [alert, setAlert] = useState({
@@ -10,6 +11,12 @@ const QrAttendance = () => {
         type: "bg-[red]",
     });
 
+    const [userId, setUserId] = useState(null);
+    const [planId, setPlanId] = useState(null);
+    //const [messId, setMessId] = useState(null);
+    const [type, setType] = useState(null);
+    const { auth } = useAuth();
+    const messId = auth.messId;
     const [cameraError, setCameraError] = useState(false);
 
     const handleErrorWebCam = (error) => {
@@ -37,6 +44,11 @@ const QrAttendance = () => {
                         message: response.data.message ,
                         type: "bg-[green]",
                     });
+                    setUserId(response.data.userId);
+                    setPlanId(response.data.planId);
+                    setType(response.data.type);
+                    //setMessId(response.data.messId);
+                    await takeAttendance();
                 } else if (response.data.alreadyUsed) {
                     // Handle already used scenario
                     setAlert({
@@ -56,6 +68,51 @@ const QrAttendance = () => {
             // Handle error scenarios
         }
     };
+
+    const takeAttendance = async (userId, planId, messId) => {
+        try {
+            console.log("Inside breakfast");
+            const verifyThing = type;
+            console.log(verifyThing, userId, planId);
+            const response = await axios.patch(
+                `dailyentry/updateentry`,
+                JSON.stringify({ userId, verifyThing, planId, messId }),
+                {
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true,
+                }
+            );
+            console.log("See daily entry");
+            console.log(response);
+            // alert(response.data.message);
+            setAlert({
+                mode: true,
+                message: response.data.message,
+                type: "bg-[green]",
+            });
+        } catch (error) {
+            if (!error?.response) {
+                console.log("No Server Response");
+            }
+                // else if(error.response?.status === 400)
+                // {
+
+            // }
+            else {
+                // console.log("Deletion Failed");
+                console.log(error.message);
+                console.log(error.response.data.message);
+                const message = error.response.data.message;
+                setAlert({
+                    mode: true,
+                    message: message,
+                    type: "bg-[red]",
+                });
+            }
+        }
+    };
+
+
 
     return (
         <div>

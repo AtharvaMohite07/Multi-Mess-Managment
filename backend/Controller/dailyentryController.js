@@ -25,8 +25,7 @@ export const getUserEntryDetail = asyncHandler(async (req , res) => {
 
 })
 export const updateDailyEntry = asyncHandler(async (req, res) => {
-    const { userId, verifyThing, planId } = req.body;
-    const { id: messId } = req.params;
+    const { userId, verifyThing, planId , messId} = req.body;
 
     if (!verifyThing) {
         return res.status(400).json({ message: 'Select type required' });
@@ -39,7 +38,7 @@ export const updateDailyEntry = asyncHandler(async (req, res) => {
 
         // If the user is not found, create a new entry
         if (!user) {
-            user = await DailyEntry.create({ userId,messId, attendance: [] });
+            user = await DailyEntry.create({ userId, messId, attendance: [] });
         }
         const momentDate = moment().utcOffset('+05:30').startOf('day');
         const date = new Date();

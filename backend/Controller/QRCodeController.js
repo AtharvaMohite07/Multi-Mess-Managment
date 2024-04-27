@@ -13,16 +13,17 @@ const encryptionKey = 'de4f927dc1e812d74cab41efcf22c5ac9d866ba2befa9d7f160228772
 
 //console.log(encryptionKey);
 
-export async function generateQRCode(userId, planId, validityDate, mealType) {
+export async function generateQRCode(userId, messId, planId, validityDate, mealType) {
     return new Promise(async (resolve, reject) => {
         try {
             // Check for required fields
-            if (!userId || !planId || !validityDate || !mealType) {
+            if (!userId || !messId || !planId || !validityDate || !mealType) {
                 resolve({
                         message: 'Missing required fields.'
                     }
                 );
             }
+            console.log(messId)
 
             // Encrypt the data before generating the QR code
             const dataToEncrypt = JSON.stringify({userId, planId, mealType});
@@ -34,6 +35,7 @@ export async function generateQRCode(userId, planId, validityDate, mealType) {
             // Create a new QRCode document
             const newQRCode = new QRCode({
                 userId,
+                messId,
                 planId,
                 validityDate,
                 mealType,
@@ -71,7 +73,7 @@ export async function validateQRCode(req, res) {
         }
 
         // Extract the userId, planId, mealType, and validityDate from the QR code document
-        const { userId, planId, mealType, validityDate } = qrCode;
+        const { userId, planId, mealType, validityDate, messId } = qrCode;
 
         // Check if the QR code is expired
         if (validityDate < Date.now()) {
@@ -130,6 +132,10 @@ export async function validateQRCode(req, res) {
             // Success response from updateDailyEntry
             return res.status(200).json({
                 message: 'QR code validated successfully.',
+                userId,
+                planId,
+                type: mealType,
+                messId,
                 alreadyUsed: false,
                 success: true
             });

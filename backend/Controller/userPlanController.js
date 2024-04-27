@@ -48,9 +48,10 @@ export const addUserPlan = asyncHandler(async (req, res) => {
     try {
       const { id: messId } = req.params;
       const { userId, planId, fees } = req.body;
+      console.log(messId)
 
         // Create the user plan
-        const userPlan = new UserPlan({ userId, planId, fees });
+        const userPlan = new UserPlan({ userId, messId, planId, fees  });
         await userPlan.save();
 
         // Generate QR codes for the selected plan

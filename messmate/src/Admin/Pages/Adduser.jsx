@@ -3,9 +3,11 @@ import SignupPhoto from "../../Svg/Signup.png";
 import { useEffect, useRef, useState } from "react";
 import axios from "../../Api/axios";
 import Alert from "../../Components/Alert";
+import useAuth from "../../Auth/useAuth";
 
 const Email_Checker = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const Mobile_Cheker = /^[6-9]\d{9}$/gi;
+const Password_Checker = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
 const Adduser = () => {
   const [alert, setalert] = useState({
@@ -13,10 +15,11 @@ const Adduser = () => {
     message: "",
     type: "bg-[red]",
   });
-
+  const { auth } = useAuth();
+  const adminmessId = auth.messId;
   const [name, setName] = useState("");
 
-  const [messId, setMessId] = useState(0);
+  const [messId, setMessId] = useState(adminmessId);
 
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
@@ -43,9 +46,8 @@ const Adduser = () => {
   useEffect(() => {
     setValidEmail(Mobile_Cheker.test(mobileno));
   }, [mobileno]);
-
   useEffect(() => {
-    setValidPassword(true);
+    setValidPassword(Password_Checker.test(password));
     setValidCPasswd(password === cpassword);
   }, [password, cpassword]);
 
@@ -231,6 +233,9 @@ const Adduser = () => {
                     value={password}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 />
+                {!validPassword && (
+                    <p className="text-sm text-red-500">Password must contain at least one uppercase letter, one lowercase letter, one number, and be at least 8 characters long.</p>
+                )}
               </div>
               <div className="relative mb-4">
                 <label
