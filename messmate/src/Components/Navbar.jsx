@@ -42,18 +42,16 @@ const Navbar = () => {
           >
             About us
           </Link>
-          <Link
-            to="/"
-            className="mr-5 text-white text-lg hover:text-gray-900 hover:no-underline"
-          >
+          <a href="https://forms.gle/GNj57oNUh8S7ZrtBA" target="_blank" rel="noopener noreferrer"
+             className="mr-5 text-white text-lg hover:text-gray-900 hover:no-underline">
             Request Access
-          </Link>
+          </a>
         </nav>
         {auth.role === 0 ? (
-          <div>
-            <Link
-              to="/user"
-              className="mr-5 inline-flex items-center  bg-black text-white font-semibold text-lg hover:no-underline py-1 px-3 focus:outline-none  rounded p-2 md:mt-0"
+            <div>
+              <Link
+                  to="/user"
+                  className="mr-5 inline-flex items-center  bg-black text-white font-semibold text-lg hover:no-underline py-1 px-3 focus:outline-none  rounded p-2 md:mt-0"
             >
               Users
             </Link>

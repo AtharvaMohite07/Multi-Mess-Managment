@@ -27,7 +27,7 @@ export const getPlan = asyncHandler(async (req , res) => {
 
 export const getAllPlan = asyncHandler(async (req , res)=> {
     const { id: messId } = req.params;
-    const plans = await Plan.find({ messId }).lean();
+    const plans = await Plan.find({messId}).lean();
 
     // If no users 
     if (!plans?.length) {

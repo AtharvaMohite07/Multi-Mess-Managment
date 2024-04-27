@@ -28,10 +28,10 @@ const CurrentPlan = ({ planDetail, plan_id }) => {
         });
 
         setPlan(response.data.plan[0]);
-        console.log("plan", plan);
+        //console.log("plan", plan);
         // alert(response.data.message);
       } catch (err) {
-        alert(err);
+        //alert(err);
       }
     };
 
@@ -100,11 +100,16 @@ const CurrentPlan = ({ planDetail, plan_id }) => {
               <span className="title-font font-medium text-2xl pl-4 text-gray-900">
                 &#8377;{planDetail.fees}
               </span>
-              <button className="flex ml-auto  text-black bg-blue-400 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
-              onClick = "">
+              <button
+                  className="flex ml-auto text-black bg-blue-400 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
+                  onClick={() => {
+                    window.location.href = 'https://forms.gle/6hFKT1SZUBhb95rs6';
+                  }}
+              >
                 Feedback
               </button>
-              <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ">
+              <button
+                  className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ">
                 {/* <svg
                   fill="currentColor"
                   strokeLinecap="round"
