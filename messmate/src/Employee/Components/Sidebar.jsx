@@ -36,7 +36,7 @@ function Sidebar() {
       <ul className="flex flex-col   pl-0 mb-0 mt-2 gap-[.3rem] z-2">
         <li className=" w-full mt-4 hidden sm:block">
           <h6 className=" ml-2  text-center text-lg font-bold text-black leading-tight uppercase  opacity-100">
-            Hello Admin
+            Hello Employee
           </h6>
         </li>
         <hr className="bg-black mt-3 hidden sm:block" />

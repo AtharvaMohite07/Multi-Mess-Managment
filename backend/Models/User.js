@@ -73,7 +73,7 @@ userSchema.pre("save", async function (next) {
 
         const today_date = new Date();
         today_date.setDate(today_date.getDate()-1)
-        const dailyEntryObject = {"userId":docs.userId , "attendance" : [{"date":today_date}]}
+        const dailyEntryObject = {"userId":docs.userId ,"messId":docs.messId, "attendance" : [{"date":today_date}]}
         const success = await new DailyEntry(dailyEntryObject).save();
         console.log("success daily entry : " , success);
         // return res.status(400).json({ message: 'Entry added'});

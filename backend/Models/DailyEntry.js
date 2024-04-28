@@ -9,6 +9,7 @@ const entrySchema = new mongoose.Schema({
     },
     messId: {
         type: Number,
+        required: true
     },
     attendance : [
         {

@@ -25,6 +25,7 @@ import QrAttendance from "./Admin/Pages/QrAttendance";
 import Dashboad from "./Admin/Pages/Dashboad";
 import Inventory from "./Admin/Pages/Inventory";
 import Employee from "./Employee/Employee";
+import EmployeeDashboad from "./Employee/Pages/Dashboad";
 import SuperAdmin from "./SuperAdmin/SuperAdmin";
 import SuperadminDashboad from "./SuperAdmin/Pages/SuperadminDashboad";
 import Allmess from "./SuperAdmin/Pages/Allmess";
@@ -68,7 +69,7 @@ function App() {
               </Route>
               <Route element={<RequireAuth accessRole={2} />}>
                 <Route path="/employee" element={<Employee />}>
-                <Route path='' element={<Dashboad />}></Route>
+                <Route path='' element={<EmployeeDashboad />}></Route>
 
                   <Route path="qrattendance" element={<QrAttendance />}>
                   </Route>
