@@ -332,7 +332,7 @@ const Menu = () => {
                     htmlFor="full-name"
                     className="leading-7 text-sm text-gray-600"
                   >
-                    Enter the Plane Detail
+                    Enter the Plan Detail
                   </label>
                   <textarea
                     cols="5"

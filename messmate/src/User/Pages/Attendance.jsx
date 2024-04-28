@@ -478,7 +478,7 @@ const Attendance = () => {
                   <div className="md:min-h-[25px] max-h-[12px] min-w-[12px] md:min-w-[25px] md:mt-0  mt-[6px] rounded-xl bg-lime-300 "></div>{" "}
                   <span className="text-base text-black font-semibold">
                     {" "}
-                    Current Plane
+                    Current Plan
                   </span>
                 </div>
               </div>
