@@ -3,7 +3,7 @@ import axios from "../../Api/axios";
 import EditMessModal from "./EditMess";
 
 function AllMess() {
-  const [EditMessModal, setEditMessModal] = useState(false);
+  const [editMessModal, setEditMessModal] = useState(false);
   const [messId, setMessId] = useState(null);
   const [messName, setMessName] = useState("");
   const [location, setLocation] = useState("");
@@ -142,6 +142,11 @@ const handleDelete = async (email) => {
 
   return (
       <div className="relative w-[99%] overflow-x-auto shadow-xl sm:rounded-lg">
+          {editMessModal ? (
+              <EditMessModal setEditMessmodal={setEditMessModal} email={ContactPersonEmail} />
+          ) : (
+              ""
+          )}
         <div className="flex items-center justify-end pb-4 bg-white dark:bg-gray-900">
           <label htmlFor="table-search" className="sr-only">
             Search
