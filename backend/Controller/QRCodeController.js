@@ -98,6 +98,7 @@ export async function validateQRCode(req, res) {
         qrCode.isUsed = true;
         await qrCode.save();
         const verifyThing = mealType;
+
         const requestBody = {
             body: {
                 userId: userId,
@@ -105,33 +106,20 @@ export async function validateQRCode(req, res) {
                 planId: planId
             }
         };
-        const responseBody = {
-            // Method to send JSON response
-            json: function(data) {
-                // Convert data to JSON string and log it
-                console.log(JSON.stringify(data));
-            },
-            // Method to send plain text response
-            send: function(text) {
-                // Log the text
-                console.log(text);
-            },
-            // Method to set status code
-            status: function(code) {
-                // Log the status code
-                console.log(`Status Code: ${code}`);
-                // Return the responseBody object for method chaining
-                return responseBody;
-            }
-        };
 
-        const updateResult = await updateDailyEntry(requestBody, responseBody);
+
+        const updateResult = await updateDailyEntry(requestBody, res);
+        console.log(updateResult)
 
         // Placeholder response for successful validation
+        if (!updateResult || typeof updateResult.status === 'undefined') {
+            console.error('Invalid response from updateDailyEntry');
+            return res.status(500).json({ message: 'Internal server error during attendance update.' });
+        }
         if (updateResult.status === 200) {
             // Success response from updateDailyEntry
             return res.status(200).json({
-                message: 'QR code validated successfully.',
+                message: 'Attendance Taken Successfully.', // New message
                 userId,
                 planId,
                 type: mealType,
@@ -139,7 +127,11 @@ export async function validateQRCode(req, res) {
                 alreadyUsed: false,
                 success: true
             });
-        } else {
+
+        } else if (updateResult.status === 400) { // Specific 400 error handling
+        const errorMessage = updateResult.message || "Bad Request: Attendance already marked or invalid QR code.";
+        return res.status(400).json({message: errorMessage, alreadyUsed: true, success: false});
+    } else {
             // Error response from updateDailyEntry
             return res.status(updateResult.status).json({
                 message: updateResult.message,

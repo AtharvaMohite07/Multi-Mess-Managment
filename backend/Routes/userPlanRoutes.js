@@ -8,7 +8,7 @@ import { addUserPlan, getConsent, getCurrentPlan, getTodayStudents, getUserCurre
 const userplanRoute = Router();
 
 // router queries
-userplanRoute.get("/getUserPlan" ,  getCurrentPlan)
+userplanRoute.get("/getUserPlan/:id" ,  getCurrentPlan)
 userplanRoute.get("/getTodayStudent/:type" ,  getTodayStudents)
 userplanRoute.get("/getConsent/:obj" ,  getConsent)
 userplanRoute.get("/getusercurrentplan/:userId" ,  getUserCurrentPlan)

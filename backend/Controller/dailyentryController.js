@@ -28,7 +28,7 @@ export const updateDailyEntry = asyncHandler(async (req, res) => {
     const { userId, verifyThing, planId , messId} = req.body;
 
     if (!verifyThing) {
-        return res.status(400).json({ message: 'Select type required' });
+        return { message: 'Select type required', status: 400 };
     }
 
     try {
@@ -52,7 +52,7 @@ export const updateDailyEntry = asyncHandler(async (req, res) => {
             if ((verifyThing === "breakfast" && isTodayAdded.menu.breakfast) ||
                 (verifyThing === "lunch" && isTodayAdded.menu.lunch) ||
                 (verifyThing === "dinner" && isTodayAdded.menu.dinner)) {
-                return res.status(400).json({ message: `Your ${verifyThing} entry is already added` });
+                return { message: `Your ${verifyThing} entry is already added`, status: 400 };
             }
 
             const updateEntry = await DailyEntry.updateOne(
@@ -75,10 +75,10 @@ export const updateDailyEntry = asyncHandler(async (req, res) => {
             );
 
             if (updateIsAvailable.nModified === 0) {
-                return res.status(400).json({ message: `Failed to update isavailable field for ${verifyThing}` });
+                return { message: `Failed to update isavailable field for ${verifyThing}`, status: 400 };
             }
 
-            return res.json({ message: `Daily entry updated for ${verifyThing}` });
+            return { message: `Daily entry updated for ${verifyThing}`, status: 200 };
         } else {
             const dailyEntryObject = {
                 "date": date,
@@ -107,11 +107,20 @@ export const updateDailyEntry = asyncHandler(async (req, res) => {
                 return res.status(400).json({ message: `Failed to update isavailable field for ${verifyThing}` });
             }
 
-            return res.status(200).json.json({ message: `Daily entry updated for ${verifyThing}` });
+            return res.status(200).json({ message: `Daily entry updated for ${verifyThing}`, status: 200 });
         }
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "Internal server error" });
+        let statusCode = 500;
+        let message = 'Internal server error.';
+        if (error.name === 'ValidationError') {
+            statusCode = 400;
+            message = error.message;
+        } else if (error.code === 11000) {
+            statusCode = 409;
+            message = 'Duplicate entry found.';
+        }
+        return res.status(statusCode).json({ message });
     }
 });
 // export const deleteUser = asyncHandler(async (req, res) => {

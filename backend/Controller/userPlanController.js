@@ -22,8 +22,13 @@ export const getUserCurrentPlan = asyncHandler(async (req, res) => {
 
 export const getCurrentPlan = asyncHandler(async (req, res) => {
   const today_date = new Date();
+  const { id: messId } = req.params;
   const user = await UserPlan.aggregate([
     {
+      $match: { messId: messId }  // Filter by messId
+
+    },
+      {
       $group: {
         _id: "$_id",
         userId: { $first: "$userId" },

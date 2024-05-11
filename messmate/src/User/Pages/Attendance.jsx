@@ -326,7 +326,7 @@ const Attendance = () => {
     "July",
     "August",
     "September",
-    "Octomber",
+    "October",
     "December",
   ];
   return (
