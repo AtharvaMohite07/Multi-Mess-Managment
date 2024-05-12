@@ -143,7 +143,7 @@ const handleDelete = async (email) => {
   return (
       <div className="relative w-[99%] overflow-x-auto shadow-xl sm:rounded-lg">
           {editMessModal ? (
-              <EditMessModal setEditMessmodal={setEditMessModal} email={ContactPersonEmail} />
+              <EditMessModal setEditModal={setEditMessModal} email={ContactPersonEmail} />
           ) : (
               ""
           )}

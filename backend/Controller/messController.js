@@ -45,7 +45,9 @@ export async function getMesses(req, res) {
 }
 export async function getMessByEmail(req, res) {
     try {
-        const mess = await Mess.findOne({ email: req.params.email });
+        const email = req.params.email;
+        const mess = await Mess.findOne({email});
+        console.log(mess);
         if (!mess) {
             return res.status(404).json({ message: 'Mess not found' });
         }
