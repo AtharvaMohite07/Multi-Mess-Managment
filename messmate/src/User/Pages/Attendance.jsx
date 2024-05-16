@@ -81,8 +81,8 @@ const Attendance = () => {
     const getData = async (e) => {
       try {
         const userId = auth.userId;
-        // const userId = 2007;
-        const response = await axios.get(`/dailyentry/getuserentry/${userId}`, {
+        // const userId = 2000;
+        const response = await axios.get(`/dailyentry/getuserentry/${userId}/${messId}`, {
           withCredentials: true,
         });
 
