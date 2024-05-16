@@ -22,7 +22,7 @@ const AllPlanTable = () => {
           withCredentials: true,
         });
 
-        // console.log("Get All User", response.data);
+        console.log("Get All User", response.data);
         setUsers(response.data);
         console.log(JSON.stringify(response));
       } catch (err) {

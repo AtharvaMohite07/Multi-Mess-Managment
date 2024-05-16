@@ -103,13 +103,13 @@ export async function validateQRCode(req, res) {
             body: {
                 userId: userId,
                 verifyThing: verifyThing,
-                planId: planId
+                planId: planId,
+                messId: messId
             }
         };
 
 
         const updateResult = await updateDailyEntry(requestBody, res);
-        console.log(updateResult)
 
         // Placeholder response for successful validation
         if (!updateResult || typeof updateResult.status === 'undefined') {
@@ -128,10 +128,11 @@ export async function validateQRCode(req, res) {
                 success: true
             });
 
-        } else if (updateResult.status === 400) { // Specific 400 error handling
-        const errorMessage = updateResult.message || "Bad Request: Attendance already marked or invalid QR code.";
-        return res.status(400).json({message: errorMessage, alreadyUsed: true, success: false});
-    } else {
+        }
+        // else if (updateResult.status === 400) { // Specific 400 error handling
+        // const errorMessage = updateResult.message || "Bad Request: Attendance already marked or invalid QR code.";
+        // return res.status(400).json({message: errorMessage, alreadyUsed: true, success: false});}
+        else {
             // Error response from updateDailyEntry
             return res.status(updateResult.status).json({
                 message: updateResult.message,

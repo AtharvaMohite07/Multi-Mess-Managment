@@ -23,9 +23,10 @@ export const getUserCurrentPlan = asyncHandler(async (req, res) => {
 export const getCurrentPlan = asyncHandler(async (req, res) => {
   const today_date = new Date();
   const { id: messId } = req.params;
+  const messIdInt = parseInt(messId, 10);
   const user = await UserPlan.aggregate([
     {
-      $match: { messId: messId }  // Filter by messId
+      $match: { messId: messIdInt }  // Filter by messId
 
     },
       {
@@ -42,6 +43,7 @@ export const getCurrentPlan = asyncHandler(async (req, res) => {
       $sort: { userId: 1 },
     },
   ]);
+
   if (!user) {
     return res.status(400).json({ message: "No users found" });
   }
