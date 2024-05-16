@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import axios from "../../Api/axios";
+import useAuth from "../../Auth/useAuth";
 
 const TodayStudent = () => {
   const [users, setUsers] = useState([]);
@@ -11,12 +12,13 @@ const TodayStudent = () => {
   const row = 5;
   const totalpages = Math.ceil(users.length / row);
   const [startingindex, setstartingindex] = useState(0);
-
+  const { auth } = useAuth();
+  const messId = auth.messId;
   useEffect(() => {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get(`/userplan/getTodayStudent/${type}`, {
+        const response = await axios.get(`/userplan/getTodayStudent/${messId}/${type}`, {
           withCredentials: true,
         });
 

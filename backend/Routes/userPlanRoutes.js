@@ -9,7 +9,7 @@ const userplanRoute = Router();
 
 // router queries
 userplanRoute.get("/getUserPlan/:id" ,  getCurrentPlan)
-userplanRoute.get("/getTodayStudent/:type" ,  getTodayStudents)
+userplanRoute.get("/getTodayStudent/:id/:type" ,  getTodayStudents)
 userplanRoute.get("/getConsent/:obj" ,  getConsent)
 userplanRoute.get("/getusercurrentplan/:userId" ,  getUserCurrentPlan)
 userplanRoute.get("/getusertodayplan/:userId" ,  getUserTodayPlan)

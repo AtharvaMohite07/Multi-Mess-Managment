@@ -206,6 +206,8 @@ export const getUserTodayPlan = asyncHandler(async (req, res) => {
 
 export const getTodayStudents = asyncHandler(async (req, res) => {
   const type = req.params.type;
+  const messId = req.params.id;
+  const messIdInt = parseInt(messId, 10);
   // console.log(type);
   var today_date = new Date();
   // today_date = moment(today_date).utcOffset()
@@ -218,6 +220,7 @@ export const getTodayStudents = asyncHandler(async (req, res) => {
     user = await UserPlan.aggregate([
       {
         $match: {
+          messId: messIdInt,
           start_date: { $lte: today_date },
           end_date: { $gte: today_date },
           isavailable: {
@@ -247,6 +250,7 @@ export const getTodayStudents = asyncHandler(async (req, res) => {
     user = await UserPlan.aggregate([
       {
         $match: {
+          messId: messIdInt,
           start_date: { $lte: today_date },
           end_date: { $gte: today_date },
           isavailable: {
@@ -276,6 +280,7 @@ export const getTodayStudents = asyncHandler(async (req, res) => {
     user = await UserPlan.aggregate([
       {
         $match: {
+          messId: messIdInt,
           start_date: { $lte: today_date },
           end_date: { $gte: today_date },
           isavailable: {

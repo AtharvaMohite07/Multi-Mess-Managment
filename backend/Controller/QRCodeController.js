@@ -23,7 +23,6 @@ export async function generateQRCode(userId, messId, planId, validityDate, mealT
                     }
                 );
             }
-            console.log(messId)
 
             // Encrypt the data before generating the QR code
             const dataToEncrypt = JSON.stringify({userId, planId, mealType});
