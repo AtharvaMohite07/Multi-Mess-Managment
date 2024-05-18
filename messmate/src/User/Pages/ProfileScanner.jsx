@@ -61,7 +61,7 @@ const ProfileScanner = () => {
                 </h1>
                 <p>Plan ID: {plan.planId}</p>
                 <p>Fee: {plan.fee}</p>
-                <p>Fee Status: {plan.fee_status}</p>
+                {/*<p>Fee Status: {plan.fee_status}</p>*/}
                 <p>Breakfast: {plan.isTodayBreakfast ? "Available" : "Not Available"}</p>
                 <p>Lunch: {plan.isTodayLunch ? "Available" : "Not Available"}</p>
                 <p>Dinner: {plan.isTodayDinner ? "Available" : "Not Available"}</p>

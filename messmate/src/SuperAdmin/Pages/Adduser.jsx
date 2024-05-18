@@ -137,7 +137,7 @@ const Adduser = () => {
                       htmlFor="full-name"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Full Name
+                    Full Name<span className="text-red-500">*</span>
                   </label>
                   <input
                       type="text"
@@ -153,7 +153,7 @@ const Adduser = () => {
                       htmlFor="full-name"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Mess ID
+                    Mess ID<span className="text-red-500">*</span>
                   </label>
                   <input
                       type="text"
@@ -169,7 +169,7 @@ const Adduser = () => {
                       htmlFor="email"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Email
+                    Email<span className="text-red-500">*</span>
                   </label>
                   <input
                       type="email"
@@ -185,7 +185,7 @@ const Adduser = () => {
                       htmlFor="contact"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Contact Number
+                    Contact Number<span className="text-red-500">*</span>
                   </label>
                   <input
                       type="number"
@@ -201,7 +201,7 @@ const Adduser = () => {
                       htmlFor="email"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Role
+                    Role<span className="text-red-500">*</span>
                   </label>
                   <select
                       id="countries_disabled"
@@ -222,7 +222,7 @@ const Adduser = () => {
                       htmlFor="password"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Password
+                    Password<span className="text-red-500">*</span>
                   </label>
                   <input
                       type="text"
@@ -241,7 +241,7 @@ const Adduser = () => {
                       htmlFor="password"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Confirm Password
+                    Confirm Password<span className="text-red-500">*</span>
                   </label>
                   <input
                       type="text"

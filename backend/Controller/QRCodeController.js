@@ -132,10 +132,10 @@ export async function validateQRCode(req, res) {
         // const errorMessage = updateResult.message || "Bad Request: Attendance already marked or invalid QR code.";
         // return res.status(400).json({message: errorMessage, alreadyUsed: true, success: false});}
         else {
-            // Error response from updateDailyEntry
-            return res.status(updateResult.status).json({
+            // Error response from updateDailyEntry - updateResult.status
+            return res.status(400).json({
                 message: updateResult.message,
-                alreadyUsed: false, // Or set true if appropriate
+                alreadyUsed: true, // Or set true if appropriate
                 success: false
             });
         }

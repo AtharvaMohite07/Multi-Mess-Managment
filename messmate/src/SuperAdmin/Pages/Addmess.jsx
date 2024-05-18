@@ -23,7 +23,12 @@ const Addmess = () => {
   const [ContactPersonPhoneNumber, setContactPersonPhoneNumber] = useState("");
   const [ContactPersonEmail, setContactPersonEmail] = useState("");
   const [menuType, setmenuType] = useState("Veg"); // Default value for menuType
-  const [timings, setTimings] = useState({});
+  const [timings, setTimings] = useState({
+    breakfast: "",
+    lunch: "",
+    dinner: ""
+  });
+
   const [isActive, setIsActive] = useState(true);
 
   // validation in all fields
@@ -76,7 +81,7 @@ const Addmess = () => {
       setContactPersonEmail("");
       setContactPersonName("");
       setmenuType("");
-      setTimings("")
+      setTimings({ breakfast: "", lunch: "", dinner: "" });
       setIsActive("");
       setAlert({
         mode: true,
@@ -130,7 +135,7 @@ const Addmess = () => {
                       htmlFor="mess-name"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Mess Name
+                    Mess Name<span className="text-red-500">*</span>
                   </label>
                   <input
                       type="text"
@@ -146,7 +151,7 @@ const Addmess = () => {
                       htmlFor="mess-name"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Contact Name
+                    Contact Name<span className="text-red-500">*</span>
                   </label>
                   <input
                       type="text"
@@ -162,7 +167,7 @@ const Addmess = () => {
                       htmlFor="email"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Email
+                    Email<span className="text-red-500">*</span>
                   </label>
                   <input
                       type="email"
@@ -178,7 +183,7 @@ const Addmess = () => {
                       htmlFor="contact"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Contact Number
+                    Contact Number<span className="text-red-500">*</span>
                   </label>
                   <input
                       type="tel"
@@ -194,7 +199,7 @@ const Addmess = () => {
                       htmlFor="capacity"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Capacity
+                    Capacity<span className="text-red-500">*</span>
                   </label>
                   <input
                       type="number"
@@ -210,7 +215,7 @@ const Addmess = () => {
                       htmlFor="menu-type"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Menu Type
+                    Menu Type<span className="text-red-500">*</span>
                   </label>
                   <select
                       id="menuType"
@@ -273,7 +278,7 @@ const Addmess = () => {
                       htmlFor="location"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Location
+                    Location<span className="text-red-500">*</span>
                   </label>
                   <input
                       type="text"
@@ -289,7 +294,7 @@ const Addmess = () => {
                       htmlFor="is-active"
                       className="leading-7 text-sm text-gray-600"
                   >
-                    Is Active
+                    Is Active<span className="text-red-500">*</span>
                   </label>
                   <select
                       id="is-active"

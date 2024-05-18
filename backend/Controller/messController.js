@@ -9,6 +9,9 @@ export async function createMess(req, res) {
         ContactPersonPhoneNumber,
         ContactPersonEmail,
         menuType,
+        BreakfastTiming,
+        LunchTiming,
+        DinnerTiming,
         isActive
     } = req.body;
 
@@ -23,6 +26,11 @@ export async function createMess(req, res) {
                 email: ContactPersonEmail
             },
             menuType,
+            timings: {
+                breakfast: BreakfastTiming,
+                lunch: LunchTiming,
+                dinner: DinnerTiming
+            },
             isActive
         });
 

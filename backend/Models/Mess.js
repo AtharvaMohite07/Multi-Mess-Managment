@@ -27,12 +27,14 @@ const messSchema = new mongoose.Schema({
     },
     isActive: { type: Boolean, default: true }
 
+
 });
 
 messSchema.pre('save', async function (next) {
-    const mess = this;
-    const messCount = await Mess.countDocuments(); // Get count of existing messes
-    mess.messId = messCount + 1; // Assign messId as count + 1
+    const docs = this;
+    const data = await Mess.find();
+     // Get count of existing messes
+    docs.messId =  docs.messId+data.length; // Assign messId as count + 1
     next();
 });
 

@@ -13,6 +13,7 @@ const QrAttendance = () => {
 
   const [userId, setUserId] = useState(null);
   const [planId, setPlanId] = useState(null);
+  //const [messId, setMessId] = useState(null);
   const [type, setType] = useState(null);
   const { auth } = useAuth();
   const messId = auth.messId;
@@ -34,18 +35,22 @@ const QrAttendance = () => {
 
         // Make an axios POST request to validate the scanned QR code
         const response = await axios.post(`/qrcodes/validate`, { code: qrCodeText });
+        console.log(response);
         console.log(response.data.message); // Log the validation message
 
         // Handle UI updates based on the response if needed
         if (response.data.success) {
-          setAlert({
-            mode: true,
-            message: response.data.message ,
-            type: "bg-[green]",
-          });
+          if (response.data.message === 'Attendance Taken Successfully.') {
+            setAlert({
+              mode: true,
+              message: response.data.message,
+              type: "bg-[green]"
+            });
+          }
           setUserId(response.data.userId);
           setPlanId(response.data.planId);
           setType(response.data.type);
+          //setMessId(response.data.messId);
           await takeAttendance();
         } else if (response.data.alreadyUsed) {
           // Handle already used scenario
@@ -58,8 +63,13 @@ const QrAttendance = () => {
           setAlert({
             mode: true,
             message: response.data.message || "QR code validation failed.",
+            type: response.data.success ? "bg-[green]" : "bg-[red]",
+            errorCode: response.data.errorCode, // Set errorCode if available
           });
         }
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       }
     } catch (error) {
       console.error('Error validating QR code:', error);
@@ -67,14 +77,14 @@ const QrAttendance = () => {
     }
   };
 
-  const takeAttendance = async (userId, planId) => {
+  const takeAttendance = async (userId, planId, messId) => {
     try {
       console.log("Inside breakfast");
       const verifyThing = type;
       console.log(verifyThing, userId, planId);
       const response = await axios.patch(
           `dailyentry/updateentry`,
-          JSON.stringify({ userId, verifyThing, planId , messId}),
+          JSON.stringify({ userId, verifyThing, planId, messId }),
           {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
@@ -89,24 +99,19 @@ const QrAttendance = () => {
         type: "bg-[green]",
       });
     } catch (error) {
+      let errorMessage = "An error occurred during attendance marking.";
       if (!error?.response) {
-        console.log("No Server Response");
+        errorMessage = "No server response.";
+      } else if (error.response?.status === 400) {
+        errorMessage = error.response.data.message || "Bad request.";
+      } else {
+        errorMessage = error.response.data.message || "Server error.";
       }
-          // else if(error.response?.status === 400)
-          // {
-
-      // }
-      else {
-        // console.log("Deletion Failed");
-        console.log(error.message);
-        console.log(error.response.data.message);
-        const message = error.response.data.message;
-        setAlert({
-          mode: true,
-          message: message,
-          type: "bg-[red]",
-        });
-      }
+      setAlert({
+        mode: true,
+        message: errorMessage,
+        type: "bg-[red]",
+      });
     }
   };
 

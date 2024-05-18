@@ -55,7 +55,7 @@ function Dashboad() {
   }, []);
 
   useEffect(() => {
-      const fetchMessName = async () => {
+      const getMessName = async () => {
         try {
           const messIdInt = parseInt(messId, 10);
           const response = await axios.get(`/messes/getmessbyid/${messIdInt}`, {
@@ -68,8 +68,9 @@ function Dashboad() {
         }
       };
 
-      fetchMessName();
+      getMessName();
     }, [messId]);
+
   useEffect(() => {
     const getData = async (e) => {
       // if button enabled with JS hack

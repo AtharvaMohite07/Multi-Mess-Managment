@@ -29,11 +29,6 @@ const QrAttendance = () => {
             if (result) {
                 // Process the scanned QR code text
                 console.log("Scanned Code:", result);
-                setAlert({
-                    mode: true,
-                    message: "Scan successful!",
-                    type: "bg-[green]",
-                });
 
                 // Extract the text property from the result object
                 const qrCodeText = result.text;
@@ -72,6 +67,9 @@ const QrAttendance = () => {
                         errorCode: response.data.errorCode, // Set errorCode if available
                     });
                 }
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
             }
         } catch (error) {
             console.error('Error validating QR code:', error);

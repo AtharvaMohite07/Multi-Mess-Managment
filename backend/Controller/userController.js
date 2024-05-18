@@ -111,12 +111,12 @@ export const updateUser = asyncHandler(async (req, res) => {
     }
 
     // Check for duplicate 
-    const duplicate = await User.findOne({"email": email , "mobileno" : mobileno}).lean().exec()
-    // console.log(duplicate);
-    // // Allow updates to the original user 
-    if (duplicate) {
-        return res.status(409).json({ message: 'Duplicate email or mobileno' })
-    }
+    // const duplicate = await User.findOne({"email": email , "mobileno" : mobileno}).lean().exec()
+    // // console.log(duplicate);
+    // // // Allow updates to the original user
+    // if (duplicate) {
+    //     return res.status(409).json({ message: 'Duplicate email or mobileno' })
+    // }
 
     const updatedObject = {name , messId, email , mobileno , role}
     //console.log(updatedObject);
