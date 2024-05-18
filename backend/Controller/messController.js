@@ -46,7 +46,11 @@ export async function getMesses(req, res) {
 export async function getMessByEmail(req, res) {
     try {
         const email = req.params.email;
-        const mess = await Mess.findOne({email});
+        console.log(email);
+        if (!email) {
+            return res.status(400).json({ message: 'Mess ID Required' })
+        }
+        const mess = await Mess.findOne({"contactPerson.email":email}).lean()
         console.log(mess);
         if (!mess) {
             return res.status(404).json({ message: 'Mess not found' });
@@ -75,6 +79,8 @@ export async function getMessById(req, res) {
 export async function updateMess(req, res){
     try {
         const messId = req.params.id;
+        const messIdInt = parseInt(messId, 10);
+        console.log(messId);
         const {
             messName,
             location,
@@ -86,23 +92,35 @@ export async function updateMess(req, res){
             isActive
         } = req.body;
 
-        const updatedMess = await Mess.findByIdAndUpdate(
-            messId,
-            {
-                messName,
-                location,
-                capacity,
-                contactPerson: {
-                    name: contactPersonName,
-                    phoneNumber: contactPersonPhoneNumber,
-                    email: contactPersonEmail
-                },
-                menuType,
-                isActive
-            },
-            { new: true }
-        );
+        const mess = await Mess.findOne({"messId":messIdInt}).exec();
+        if (!mess) {
+            return res.status(404).json({ message: 'Mess not found' });
+        }
 
+        // Check for duplicate email
+        // const duplicate = await Mess.findOne({ "contactPerson.email": contactPersonEmail }).lean().exec();
+        // if (duplicate && duplicate._id.toString() !== messIdInt) {
+        //     return res.status(409).json({ message: 'Duplicate contact person email' });
+        // }
+
+        // Create the updated object
+        const updatedObject = {
+            messName,
+            location,
+            capacity,
+            contactPerson: {
+                name: contactPersonName,
+                phoneNumber: contactPersonPhoneNumber,
+                email: contactPersonEmail
+            },
+            menuType,
+            isActive
+        };
+
+        // Update the Mess
+        const updatedMess = await Mess.updateOne({"messId":messIdInt}, updatedObject);
+
+        // Return the updated Mess
         if (!updatedMess) {
             return res.status(404).json({ message: 'Mess not found' });
         }

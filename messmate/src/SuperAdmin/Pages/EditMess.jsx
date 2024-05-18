@@ -12,10 +12,13 @@ function EditMess(props) {
     message: "",
     type: "bg-[red]",
   });
-
-  const [name, setName] = useState("");
+  const [messId, setmessId] = useState("");
+  const [messName, setmessName] = useState("");
   const [email, setEmail] = useState("");
   const [location, setLocation] = useState("");
+  const [contactPersonName, setContactPersonName] = useState("");
+  const [contactPersonPhoneNumber, setContactPersonPhoneNumber] = useState("");
+  const [contactPersonEmail, setContactPersonEmail] = useState("");
   const [capacity, setCapacity] = useState("");
   const [menuType, setMenuType] = useState("");
   const [isActive, setIsActive] = useState(true);
@@ -25,16 +28,21 @@ function EditMess(props) {
 
   // Fetch mess data for editing
   useEffect(() => {
-    const fetchData = async () => {
+    const getData = async () => {
       try {
         const response = await axios.get(`/messes/getmessbyemail/${props.email}`, {
           withCredentials: true,
         });
         const data = response.data;
-        setName(data.name);
+        console.log(data);
+        setmessId(data.messId)
+        setmessName(data.messName);
         setEmail(data.email); // Assuming email is available in the response data
         setLocation(data.location);
         setCapacity(data.capacity);
+        setContactPersonName(data.contactPerson.name);
+        setContactPersonPhoneNumber(data.contactPerson.phoneNumber);
+        setContactPersonEmail(data.contactPerson.email);
         setMenuType(data.menuType);
         setIsActive(data.isActive);
       } catch (error) {
@@ -42,21 +50,21 @@ function EditMess(props) {
       }
     };
 
-    fetchData();
-  }, [props.email]);
+    getData(props.email);
+  }, []);
 
   // handling submit
   const handleUpdate = async (e) => {
     e.preventDefault();
-    if (!name || !location || !capacity || !menuType || !email) {
+    if (!messName || !location || !capacity || !menuType ) {
       setErrMsg("Please fill in all fields.");
       return;
     }
 
     try {
       const response = await axios.patch(
-          `/messes/update/${email}`,
-          JSON.stringify({ name, location, capacity, menuType, isActive }),
+          `/messes/update/${messId}`,
+          JSON.stringify({ messName, location, capacity,contactPersonName,contactPersonPhoneNumber,contactPersonEmail, menuType, isActive }),
           {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
@@ -113,8 +121,8 @@ function EditMess(props) {
                   type="text"
                   id="name"
                   name="name"
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
+                  onChange={(e) => setmessName(e.target.value)}
+                  value={messName}
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
@@ -168,17 +176,49 @@ function EditMess(props) {
             </div>
             <div className="relative mb-4">
               <label
-                  htmlFor="email"
+                  htmlFor="location"
                   className="leading-7 text-sm text-gray-600"
               >
-                Email
+                Contact Persons Name
               </label>
               <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
+                  type="text"
+                  id="location"
+                  name="location"
+                  onChange={(e) => setLocation(e.target.value)}
+                  value={contactPersonName}
+                  className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              />
+            </div>
+            <div className="relative mb-4">
+              <label
+                  htmlFor="location"
+                  className="leading-7 text-sm text-gray-600"
+              >
+                Contact Persons Phone Number
+              </label>
+              <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  onChange={(e) => setLocation(e.target.value)}
+                  value={contactPersonPhoneNumber}
+                  className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              />
+            </div>
+            <div className="relative mb-4">
+              <label
+                  htmlFor="location"
+                  className="leading-7 text-sm text-gray-600"
+              >
+                Contact Persons Email
+              </label>
+              <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  onChange={(e) => setLocation(e.target.value)}
+                  value={contactPersonEmail}
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>

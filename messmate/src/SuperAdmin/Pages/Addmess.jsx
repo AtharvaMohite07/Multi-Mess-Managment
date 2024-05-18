@@ -19,7 +19,7 @@ const Addmess = () => {
   const [messName, setMessName] = useState("");
   const [location, setLocation] = useState("");
   const [capacity, setCapacity] = useState("");
-  const [contactPersonName, setContactPersonName] = useState("");
+  const [ContactPersonName, setContactPersonName] = useState("");
   const [ContactPersonPhoneNumber, setContactPersonPhoneNumber] = useState("");
   const [ContactPersonEmail, setContactPersonEmail] = useState("");
   const [menuType, setmenuType] = useState("Veg"); // Default value for menuType
@@ -52,7 +52,7 @@ const Addmess = () => {
             messName,
             location,
             capacity,
-            contactPersonName,
+            ContactPersonName,
             ContactPersonPhoneNumber,
             ContactPersonEmail,
             menuType,
@@ -138,6 +138,22 @@ const Addmess = () => {
                       name="messName"
                       value={messName}
                       onChange={(e) => setMessName(e.target.value)}
+                      className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                  />
+                </div>
+                <div className="relative mb-4">
+                  <label
+                      htmlFor="mess-name"
+                      className="leading-7 text-sm text-gray-600"
+                  >
+                    Contact Name
+                  </label>
+                  <input
+                      type="text"
+                      id="mess-name"
+                      name="ContactPersonName"
+                      value={ContactPersonName}
+                      onChange={(e) => setContactPersonName(e.target.value)}
                       className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
                 </div>

@@ -17,7 +17,7 @@ messRouter.get('/getmessbyemail/:email',getMessByEmail);
 
 messRouter.get('/getmessbyid/:id',getMessById);
 
-messRouter.put('/update/:id', updateMess);
+messRouter.patch('/update/:id', updateMess);
 
 messRouter.delete('/delete/:email', deleteMess);
 export default messRouter;
