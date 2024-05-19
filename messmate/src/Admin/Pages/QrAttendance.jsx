@@ -36,6 +36,11 @@ const QrAttendance = () => {
                 // Make an axios POST request to validate the scanned QR code
                 const response = await axios.post(`/qrcodes/validate`, { code: qrCodeText });
                 console.log(response);
+                setAlert({
+                    mode: true,
+                    message: response.data.message,
+                    type: "bg-[green]"
+                });
                 console.log(response.data.message); // Log the validation message
 
                 // Handle UI updates based on the response if needed
@@ -62,14 +67,14 @@ const QrAttendance = () => {
                 } else {
                     setAlert({
                         mode: true,
-                        message: response.data.message || "QR code validation failed.",
+                        message: response.data.message, //|| "QR code validation failed.",
                         type: response.data.success ? "bg-[green]" : "bg-[red]",
                         errorCode: response.data.errorCode, // Set errorCode if available
                     });
                 }
-                setTimeout(() => {
-                    window.location.reload();
-                }, 3000);
+                // setTimeout(() => {
+                //     window.location.reload();
+                // }, 3000);
             }
         } catch (error) {
             console.error('Error validating QR code:', error);
@@ -93,17 +98,32 @@ const QrAttendance = () => {
             console.log("See daily entry");
             console.log(response);
             // alert(response.data.message);
-            setAlert({
-                mode: true,
-                message: response.data.message,
-                type: "bg-[green]",
-            });
+            if (response.data.success) {
+                // Handle success scenario
+                setAlert({
+                    mode: true,
+                    message: response.data.message,
+                    type: "bg-[green]",
+                });
+            } else if (response.data.alreadyUsed == true) {
+                // Handle already used scenario
+                setAlert({
+                    mode: true,
+                    message: "QR code already used. Attendance already marked.",
+                    type: "bg-[orange]",
+                });
+            } else {
+                // Handle other error scenarios
+                setAlert({
+                    mode: true,
+                    message: response.data.message || "An error occurred during attendance marking.",
+                    type: "bg-[red]",
+                });
+            }
         } catch (error) {
             let errorMessage = "An error occurred during attendance marking.";
             if (!error?.response) {
                 errorMessage = "No server response.";
-            } else if (error.response?.status === 400) {
-                errorMessage = error.response.data.message || "Bad request.";
             } else {
                 errorMessage = error.response.data.message || "Server error.";
             }

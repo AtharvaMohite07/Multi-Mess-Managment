@@ -32,7 +32,7 @@ const Menu = () => {
     const getData = async (e) => {
       // if button enabled with JS hack
       try {
-        const response = await axios.get(`/menu/getMenu/${day},${messId}`, {
+        const response = await axios.get(`/menu/getMenu/${day}/${messId}`, {
           withCredentials: true,
         });
 

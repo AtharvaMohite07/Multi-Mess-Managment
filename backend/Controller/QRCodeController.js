@@ -128,14 +128,14 @@ export async function validateQRCode(req, res) {
             });
 
         }
-        // else if (updateResult.status === 400) { // Specific 400 error handling
-        // const errorMessage = updateResult.message || "Bad Request: Attendance already marked or invalid QR code.";
-        // return res.status(400).json({message: errorMessage, alreadyUsed: true, success: false});}
+        else if (updateResult.status === 300) { // Specific 400 error handling
+        const errorMessage = updateResult.message || "Attendance already marked or invalid QR code.";
+        return res.status(300).json({message: errorMessage, alreadyUsed: true, success: false});}
         else {
             // Error response from updateDailyEntry - updateResult.status
-            return res.status(400).json({
+            return res.status(updateResult.status).json({
                 message: updateResult.message,
-                alreadyUsed: true, // Or set true if appropriate
+                alreadyUsed: false, // Or set true if appropriate
                 success: false
             });
         }

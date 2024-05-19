@@ -52,7 +52,8 @@ export const updateDailyEntry = asyncHandler(async (req, res) => {
             if ((verifyThing === "breakfast" && isTodayAdded.menu.breakfast) ||
                 (verifyThing === "lunch" && isTodayAdded.menu.lunch) ||
                 (verifyThing === "dinner" && isTodayAdded.menu.dinner)) {
-                return { message: `Your ${verifyThing} entry is already added`, status: 400 };
+                return { message: `Your ${verifyThing} entry is already added`, status: 300 };
+
             }
 
             const updateEntry = await DailyEntry.updateOne(
