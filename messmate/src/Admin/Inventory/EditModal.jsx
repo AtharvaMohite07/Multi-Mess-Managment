@@ -23,6 +23,7 @@ function EditModal(props) {
   const [single_price, setSingle_Price] = useState(0);
 
   useEffect(() => {
+    console.log(messId);
     const getData = async (inventoryId) => {
       // if button enabled with JS hack
       //   console.log("Inside effect", userEmail);
@@ -67,8 +68,9 @@ function EditModal(props) {
       return;
     }
     try {
+      console.log(messId);
       const response = await axios.patch(
-        `/inventory/updateinventory/${props.inventoryId}`,
+        `/inventory/updateinventory/${props.inventoryId}/${messId}`,
         JSON.stringify({ name, storeType, qty, single_price, usedqty }),
         {
           headers: { "Content-Type": "application/json" },

@@ -70,6 +70,7 @@ export const addInventory = asyncHandler(async (req , res) => {
 
 export const updateInventory = asyncHandler(async (req, res) => {
     const { id: messId } = req.params;
+    console.log(messId);
     var {name , storeType , qty , usedqty ,single_price , } = req.body
     const inventoryId = req.params.inventoryId;
     // console.log(inventoryId);

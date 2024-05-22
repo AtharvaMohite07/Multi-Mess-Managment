@@ -101,6 +101,7 @@ export const getDayMemebr = asyncHandler(async (req , res) => {
 export const getWeekProfit = asyncHandler(async (req , res) => {
     const { id: messId } = req.params;
     const messIdInt = parseInt(messId, 10);
+    console.log(messIdInt)
     const today_date = moment().utcOffset("+05:30").startOf('week').toDate()
     const end_date1 = moment().utcOffset("+05:30").endOf('week').toDate()
     // console.log(today_date);
